@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../Components/Reusable_Bg.dart';
 import '../calculator_brain.dart';
 import 'BMIHistoryPage.dart';
+import 'feedback_page.dart';
 
 class ResultPage extends StatefulWidget {
   final String resultText;
@@ -152,11 +153,55 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ),
           ),
-          BottomContainer(
-              text: 'RE-CALCULATE',
-              onTap: () {
-                Navigator.pop(context);
-              }),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, FeedbackPage.id);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF4C4F5E),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.feedback,
+                                color: Colors.white,
+                                size: 20.0,
+                              ),
+                              SizedBox(width: 8.0),
+                              Text(
+                                'SEND FEEDBACK',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              BottomContainer(
+                text: 'RE-CALCULATE',
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );

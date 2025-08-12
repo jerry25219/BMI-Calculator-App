@@ -3,6 +3,7 @@ import 'Screens/input_page.dart';
 import 'Screens/splash_screen.dart';
 import 'Screens/privacy_policy_screen.dart';
 import 'Screens/privacy_policy_webview.dart';
+import 'Screens/feedback_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         PrivacyPolicyWebView.id: (context) => PrivacyPolicyWebView(
               useLocalHtml: true,
             ),
+        FeedbackPage.id: (context) => FeedbackPage(),
       },
     );
   }
