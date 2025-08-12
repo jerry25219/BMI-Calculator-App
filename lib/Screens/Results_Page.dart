@@ -1,20 +1,29 @@
 import 'package:bmi_calculator_app/Components/BottomContainer_Button.dart';
+import 'package:bmi_calculator_app/Screens/input_page.dart';
 import 'package:bmi_calculator_app/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Components/Reusable_Bg.dart';
+import '../calculator_brain.dart';
 
 class ResultPage extends StatelessWidget {
   final String resultText;
   final String bmi;
   final String advise;
   final Color textColor;
+  final Gender gender;
+  final int height;
+  final int weight;
 
-  ResultPage(
-      {required this.textColor,
-      required this.resultText,
-      required this.bmi,
-      required this.advise});
+  ResultPage({
+    required this.textColor,
+    required this.resultText,
+    required this.bmi,
+    required this.advise,
+    required this.gender,
+    required this.height,
+    required this.weight,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +84,34 @@ class ResultPage extends StatelessWidget {
                     height: 15.0,
                   ),
                   RawMaterialButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      // 将数据保存到本地
+                      String genderStr =
+                          gender == Gender.male ? 'male' : 'female';
+
+                      // 解析BMI值
+                      double bmiValue = double.parse(bmi);
+
+                      // 创建BMI记录
+                      BMIRecord record = BMIRecord(
+                        height: height,
+                        weight: weight,
+                        gender: genderStr,
+                        bmi: bmiValue,
+                        time: DateTime.now(),
+                      );
+
+                      // 保存记录
+                      await BMIHistoryManager.saveBMIRecord(record);
+
+                      // 显示保存成功提示
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('BMI结果已保存'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
                     constraints: BoxConstraints.tightFor(
                       width: 200.0,
                       height: 56.0,

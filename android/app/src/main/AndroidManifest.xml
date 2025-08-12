@@ -17,12 +17,6 @@
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
-              />
-            <!-- Displays an Android View that continues showing the launch screen
-                 Drawable until Flutter paints its first frame, then this splash
-                 screen fades out. A splash screen is useful to avoid any visual
-                 gap between the end of Android's launch screen and the painting of
-                 Flutter's first frame. -->
             <meta-data
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
@@ -31,11 +25,81 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+              <meta-data
+                android:name="flutter_deeplinking_enabled"
+                android:value="true" />
+           <!-- Deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cagayan.digital" />
+            </intent-filter>
+
+            <!-- Separate intent filter for specific host handling -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dragonfly"
+                    android:host="home" />
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+    <!-- 动态换icon -->
+        <activity-alias
+            android:label="Fitbit"
+            android:icon="@mipmap/ic_prod"
+            android:roundIcon="@mipmap/ic_prod"
+            android:name=".prod"
+            android:exported="true"
+            android:enabled="false"
+            android:targetActivity=".MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity-alias>
+
+        <activity-alias
+            android:label="Fitbit"
+            android:icon="@mipmap/ic_pre"
+            android:roundIcon="@mipmap/ic_pre"
+            android:name=".pre"
+            android:exported="true"
+            android:enabled="false"
+            android:targetActivity=".MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity-alias>
+
+        <activity-alias
+            android:label="Fitbit"
+            android:icon="@mipmap/ic_test"
+            android:roundIcon="@mipmap/ic_test"
+            android:name=".test"
+            android:exported="true"
+            android:enabled="false"
+            android:targetActivity=".MainActivity">
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity-alias>
     </application>
 </manifest>

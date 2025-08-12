@@ -6,6 +6,7 @@ import '../Components/Reusable_Bg.dart';
 import '../Components/RoundIcon_Button.dart';
 import '../constants.dart';
 import 'Results_Page.dart';
+import 'BMIHistoryPage.dart';
 import '../Components/BottomContainer_Button.dart';
 import '../calculator_brain.dart';
 
@@ -35,6 +36,19 @@ class _InputPageState extends State<InputPage> {
         title: Center(
           child: Text('BMI CALCULATOR'),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.history),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BMIHistoryPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -219,7 +233,9 @@ class _InputPageState extends State<InputPage> {
           BottomContainer(
             text: 'CALCULATE',
             onTap: () {
-              Calculate calc = Calculate(height: height, weight: weight);
+              String gender = selectedGender == Gender.male ? 'male' : 'female';
+              Calculate calc =
+                  Calculate(height: height, weight: weight, gender: gender);
 
               Navigator.push(
                 context,
@@ -229,6 +245,9 @@ class _InputPageState extends State<InputPage> {
                     resultText: calc.getText(),
                     advise: calc.getAdvise(),
                     textColor: calc.getTextColor(),
+                    gender: selectedGender,
+                    height: height,
+                    weight: weight,
                   ),
                 ),
               );
