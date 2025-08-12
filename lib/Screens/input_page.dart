@@ -12,6 +12,8 @@ import '../calculator_brain.dart';
 
 // ignore: must_be_immutable
 class InputPage extends StatefulWidget {
+  static const String id = 'input_page';
+
   @override
   _InputPageState createState() => _InputPageState();
 }

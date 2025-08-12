@@ -1,0 +1,12 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.dragonfly.calculator",
+        "sha256_cert_fingerprints": [
+          "2C:88:24:76:7D:33:BF:C0:E3:35:86:15:84:B7:C8:7C:98:7D:EB:F6:5F:AD:76:ED:A8:F4:38:86:8F:3F:0E:EF"
+        ]
+      }
+    }
+  ]

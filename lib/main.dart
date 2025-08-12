@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Screens/input_page.dart';
+import 'Screens/splash_screen.dart';
+import 'Screens/privacy_policy_screen.dart';
+import 'Screens/privacy_policy_webview.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +14,15 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xFF0A0E21),
         scaffoldBackgroundColor: Color(0xFF0A0E21),
       ),
-      home: InputPage(),
+      initialRoute: SplashScreen.id,
+      routes: {
+        SplashScreen.id: (context) => SplashScreen(),
+        InputPage.id: (context) => InputPage(),
+        PrivacyPolicyScreen.id: (context) => PrivacyPolicyScreen(),
+        PrivacyPolicyWebView.id: (context) => PrivacyPolicyWebView(
+              useLocalHtml: true,
+            ),
+      },
     );
   }
 }
