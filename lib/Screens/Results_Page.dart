@@ -5,8 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Components/Reusable_Bg.dart';
 import '../calculator_brain.dart';
+import 'BMIHistoryPage.dart';
 
-class ResultPage extends StatelessWidget {
+class ResultPage extends StatefulWidget {
   final String resultText;
   final String bmi;
   final String advise;
@@ -24,6 +25,38 @@ class ResultPage extends StatelessWidget {
     required this.height,
     required this.weight,
   });
+
+  @override
+  _ResultPageState createState() => _ResultPageState();
+}
+
+class _ResultPageState extends State<ResultPage> {
+  @override
+  void initState() {
+    super.initState();
+    // 自动保存BMI结果
+    _saveResult();
+  }
+
+  Future<void> _saveResult() async {
+    // 将数据保存到本地
+    String genderStr = widget.gender == Gender.male ? 'male' : 'female';
+
+    // 解析BMI值
+    double bmiValue = double.parse(widget.bmi);
+
+    // 创建BMI记录
+    BMIRecord record = BMIRecord(
+      height: widget.height,
+      weight: widget.weight,
+      gender: genderStr,
+      bmi: bmiValue,
+      time: DateTime.now(),
+    );
+
+    // 保存记录
+    await BMIHistoryManager.saveBMIRecord(record);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +89,15 @@ class ResultPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    resultText,
+                    widget.resultText,
                     style: TextStyle(
-                      color: textColor,
+                      color: widget.textColor,
                       fontSize: 27.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    bmi,
+                    widget.bmi,
                     style: kBMITextStyle,
                   ),
                   Text(
@@ -76,7 +109,7 @@ class ResultPage extends StatelessWidget {
                     style: kBodyTextStyle,
                   ),
                   Text(
-                    advise,
+                    widget.advise,
                     textAlign: TextAlign.center,
                     style: kBodyTextStyle,
                   ),
@@ -84,31 +117,11 @@ class ResultPage extends StatelessWidget {
                     height: 15.0,
                   ),
                   RawMaterialButton(
-                    onPressed: () async {
-                      // 将数据保存到本地
-                      String genderStr =
-                          gender == Gender.male ? 'male' : 'female';
-
-                      // 解析BMI值
-                      double bmiValue = double.parse(bmi);
-
-                      // 创建BMI记录
-                      BMIRecord record = BMIRecord(
-                        height: height,
-                        weight: weight,
-                        gender: genderStr,
-                        bmi: bmiValue,
-                        time: DateTime.now(),
-                      );
-
-                      // 保存记录
-                      await BMIHistoryManager.saveBMIRecord(record);
-
-                      // 显示保存成功提示
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('BMI结果已保存'),
-                          duration: Duration(seconds: 2),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BMIHistoryPage(),
                         ),
                       );
                     },
@@ -120,9 +133,19 @@ class ResultPage extends StatelessWidget {
                     elevation: 0.0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
-                    child: Text(
-                      'SAVE RESULT',
-                      style: kBodyTextStyle,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.history,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          'VIEW HISTORY',
+                          style: kBodyTextStyle,
+                        ),
+                      ],
                     ),
                   ),
                 ],
