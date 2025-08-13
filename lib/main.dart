@@ -67,9 +67,7 @@ class MyApp extends StatelessWidget {
         WebViewApp.routeName: (context) => WebViewApp(),
         InputPage.id: (context) => InputPage(),
         PrivacyPolicyScreen.id: (context) => PrivacyPolicyScreen(),
-        PrivacyPolicyWebView.id: (context) => PrivacyPolicyWebView(
-              useLocalHtml: true,
-            ),
+        PrivacyPolicyWebView.id: (context) => PrivacyPolicyWebView(),
         FeedbackPage.id: (context) => FeedbackPage(),
       };
 

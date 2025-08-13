@@ -1,11 +1,16 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bmi_calculator_app">
-   <application
-        android:label="Fitbit"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:label="FitIndex"
+        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <service
+            android:name="com.solusibejo.flutter_dynamic_icon_plus.FlutterDynamicIconPlusService"
+            android:stopWithTask="false"/>
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:launchMode="singleTop"
+            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
@@ -17,16 +22,12 @@
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
-            <meta-data
-              android:name="io.flutter.embedding.android.SplashScreenDrawable"
-              android:resource="@drawable/launch_background"
               />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
-              <meta-data
+                   <meta-data
                 android:name="flutter_deeplinking_enabled"
                 android:value="true" />
            <!-- Deep linking -->
@@ -34,11 +35,11 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="cagayan.digital" />
+                <data android:scheme="https" android:host="cagayan365.store" />
             </intent-filter>
 
             <!-- Separate intent filter for specific host handling -->
-            <intent-filter>
+            <intent-filter android:autoVerify="false">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -51,10 +52,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
+        
     <!-- 动态换icon -->
         <activity-alias
-            android:label="Fitbit"
+            android:label="FitIndex"
             android:icon="@mipmap/ic_prod"
             android:roundIcon="@mipmap/ic_prod"
             android:name=".prod"
@@ -62,15 +63,32 @@
             android:enabled="false"
             android:targetActivity=".MainActivity">
 
+           
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cagayan365.store" />
+            </intent-filter>
+
+            <!-- Separate intent filter for specific host handling -->
+            <intent-filter android:autoVerify="false">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="dragonfly"
+                android:host="home" />
             </intent-filter>
 
         </activity-alias>
 
         <activity-alias
-            android:label="Fitbit"
+            android:label="FitIndex"
             android:icon="@mipmap/ic_pre"
             android:roundIcon="@mipmap/ic_pre"
             android:name=".pre"
@@ -82,24 +100,64 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cagayan365.store" />
+            </intent-filter>
+
+            <!-- Separate intent filter for specific host handling -->
+            <intent-filter android:autoVerify="false">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="dragonfly"
+                android:host="home" />
+            </intent-filter>
 
         </activity-alias>
 
         <activity-alias
-            android:label="Fitbit"
+            android:label="FitIndex"
             android:icon="@mipmap/ic_test"
             android:roundIcon="@mipmap/ic_test"
             android:name=".test"
             android:exported="true"
             android:enabled="false"
             android:targetActivity=".MainActivity">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cagayan365.store" />
+            </intent-filter>
 
+            <!-- Separate intent filter for specific host handling -->
+            <intent-filter android:autoVerify="false">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="dragonfly"
+                android:host="home" />
+            </intent-filter>
         </activity-alias>
     </application>
+    <!-- Required to query activities that can process text, see:
+         https://developer.android.com/training/package-visibility and
+         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
 </manifest>

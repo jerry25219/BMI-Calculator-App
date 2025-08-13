@@ -8,7 +8,7 @@ class Constants {
   // static const webAPIAddress = 'https://cagayan.digital';
   // static const webAPIAddress = 'https://www.system-screen.com';
 
-  static const appId = 'com.muranbord.vulemacro';
+  static const appId = 'com.dragonfly.bmi';
 
   bool get isMobileDevice => !kIsWeb && (Platform.isIOS || Platform.isAndroid);
   bool get isDesktopDevice => !kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux);

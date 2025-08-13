@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final prefs = await SharedPreferences.getInstance();
     final bool? privacyAccepted = prefs.getBool('privacy_accepted');
 
-    if (privacyAccepted != true) {
+    if (privacyAccepted == true) {
       Navigator.pushReplacementNamed(context, InputPage.id);
     } else {
       Navigator.pushReplacementNamed(context, PrivacyPolicyScreen.id);
