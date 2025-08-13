@@ -45,5 +45,55 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<!-- scheme唤起app	-->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>dragonfly</string>
+			</array>
+		</dict>
+	</array>
+    
+<!--  动态换logo  -->
+    <key>CFBundleIcons</key>
+    <dict>
+        <key>CFBundleAlternateIcons</key>
+        <dict>
+            <key>prod</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>prod</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+            <key>pre</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>pre</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+            <key>test</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>test</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
 </dict>
 </plist>
