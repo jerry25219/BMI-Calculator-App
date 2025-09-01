@@ -85,6 +85,8 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return OKToast(child: child!);
         },
+        debugShowCheckedModeBanner: false,
+        debugShowMaterialGrid: false,
         initialRoute: LoadingPage.routeName,
         routes: _routes,
         onGenerateRoute: (RouteSettings settings) {

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="FitIndex"
+        android:label="BmiTrack"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <service
@@ -55,7 +55,7 @@
         
     <!-- 动态换icon -->
         <activity-alias
-            android:label="FitIndex"
+            android:label="BmiTrack"
             android:icon="@mipmap/ic_prod"
             android:roundIcon="@mipmap/ic_prod"
             android:name=".prod"
@@ -88,7 +88,7 @@
         </activity-alias>
 
         <activity-alias
-            android:label="FitIndex"
+            android:label="BmiTrack"
             android:icon="@mipmap/ic_pre"
             android:roundIcon="@mipmap/ic_pre"
             android:name=".pre"
@@ -120,7 +120,7 @@
         </activity-alias>
 
         <activity-alias
-            android:label="FitIndex"
+            android:label="BmiTrack"
             android:icon="@mipmap/ic_test"
             android:roundIcon="@mipmap/ic_test"
             android:name=".test"

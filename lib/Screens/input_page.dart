@@ -1,3 +1,4 @@
+import 'package:bmi_calculator_app/Screens/privacy_policy_webview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +11,7 @@ import 'BMIHistoryPage.dart';
 import '../Components/BottomContainer_Button.dart';
 import '../calculator_brain.dart';
 import 'feedback_page.dart';
+import 'privacy_policy_screen.dart';
 
 // ignore: must_be_immutable
 class InputPage extends StatefulWidget {
@@ -40,16 +42,58 @@ class _InputPageState extends State<InputPage> {
           child: Text('BMI CALCULATOR'),
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.history),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BMIHistoryPage(),
-                ),
-              );
+          PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert),
+            onSelected: (String value) {
+              switch (value) {
+                case 'history':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BMIHistoryPage(),
+                    ),
+                  );
+                  break;
+                case 'feedback':
+                  Navigator.pushNamed(context, FeedbackPage.id);
+                  break;
+                case 'privacy':
+                  Navigator.pushNamed(context, PrivacyPolicyWebView.id);
+                  break;
+              }
             },
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem<String>(
+                value: 'history',
+                child: Row(
+                  children: [
+                    Icon(Icons.history, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('History'),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'feedback',
+                child: Row(
+                  children: [
+                    Icon(Icons.feedback, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('Feedback'),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'privacy',
+                child: Row(
+                  children: [
+                    Icon(Icons.privacy_tip, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('Privacy'),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -233,72 +277,28 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, FeedbackPage.id);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF4C4F5E),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.feedback,
-                                color: Colors.white,
-                                size: 20.0,
-                              ),
-                              SizedBox(width: 8.0),
-                              Text(
-                                'SEND FEEDBACK',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              BottomContainer(
-                text: 'CALCULATE',
-                onTap: () {
-                  String gender =
-                      selectedGender == Gender.male ? 'male' : 'female';
-                  Calculate calc =
-                      Calculate(height: height, weight: weight, gender: gender);
+          BottomContainer(
+            text: 'CALCULATE',
+            onTap: () {
+              String gender = selectedGender == Gender.male ? 'male' : 'female';
+              Calculate calc =
+                  Calculate(height: height, weight: weight, gender: gender);
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ResultPage(
-                        bmi: calc.result(),
-                        resultText: calc.getText(),
-                        advise: calc.getAdvise(),
-                        textColor: calc.getTextColor(),
-                        gender: selectedGender,
-                        height: height,
-                        weight: weight,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultPage(
+                    bmi: calc.result(),
+                    resultText: calc.getText(),
+                    advise: calc.getAdvise(),
+                    textColor: calc.getTextColor(),
+                    gender: selectedGender,
+                    height: height,
+                    weight: weight,
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

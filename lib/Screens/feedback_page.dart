@@ -187,24 +187,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     ),
             ),
             Spacer(),
-            Center(
-              child: TextButton(
-                onPressed: () async {
-                  final Uri url = Uri.parse(
-                      'https://www.bmi-calculator-app.example.com/contact');
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  }
-                },
-                child: Text(
-                  'Contact Us',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
