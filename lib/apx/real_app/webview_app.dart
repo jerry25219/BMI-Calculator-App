@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'dart:io';
+import 'package:bmi_calculator_app/apx/real_app/redirect_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -83,6 +84,9 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
 
   int retryCount = 0;
 
+  /// 正在重定向
+  bool isRedirecting = false;
+
   @override
   void initState() {
     super.initState();
@@ -138,10 +142,9 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
           if (progress == 100) {
             finishRefresh();
           }
-          if(!_enableRefresh) {
+          if (!_enableRefresh) {
             _enableRefresh = true;
-            setState(() {
-            });
+            setState(() {});
           }
         },
         onWebResourceError: (error) async {
@@ -174,11 +177,22 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
 
     controller.addJavaScriptChannel(
       'APP_BRIDGE',
-      onMessageReceived: (JavaScriptMessage msg) {
+      onMessageReceived: (JavaScriptMessage msg) async {
         final Map<String, dynamic> payload =
             jsonDecode(msg.message) as Map<String, dynamic>;
         final type = payload['type'];
         final data = payload['data'];
+        print('[APP_BRIDGE] $type $data');
+        if (type == 'redirectUrl') {
+          String uri = data as String;
+          if (isRedirecting) return;
+          isRedirecting = true;
+          await Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) {
+            return RedirectPage(uri: uri);
+          }));
+          isRedirecting = false;
+        }
         if (type == 'popup') {
           bool disableRefresh = data as bool;
           if (_enableRefresh != !disableRefresh) {
@@ -191,7 +205,8 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
     );
 
     /// 监听网络连接状态变化
-    _streamSubscription = Connectivity().onConnectivityChanged.listen((result) async {
+    _streamSubscription =
+        Connectivity().onConnectivityChanged.listen((result) async {
       if (!result.contains(ConnectivityResult.none)) {
         setState(() {
           _hasError = false;
@@ -199,7 +214,7 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
         controller.reload();
       } else {
         bool isOnline = await isReallyConnected();
-        if(!isOnline) {
+        if (!isOnline) {
           setState(() {
             _hasError = true;
           });
@@ -382,10 +397,11 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
   }
 }
 
-
 Future<bool> isReallyConnected() async {
   try {
-    final result = await http.get(Uri.parse(Constants.webAPIAddress)).timeout(const Duration(seconds: 5));
+    final result = await http
+        .get(Uri.parse(Constants.webAPIAddress))
+        .timeout(const Duration(seconds: 5));
     return result.statusCode == 200;
   } catch (_) {
     return false;

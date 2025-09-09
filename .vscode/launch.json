@@ -1,0 +1,66 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "BMI-Calculator-App",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "BMI-Calculator-App (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "BMI-Calculator-App (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "flutter_dynamic_icon_plus-1.3.1",
+            "cwd": "deps/flutter_dynamic_icon_plus-1.3.1",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "flutter_dynamic_icon_plus-1.3.1 (profile mode)",
+            "cwd": "deps/flutter_dynamic_icon_plus-1.3.1",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "flutter_dynamic_icon_plus-1.3.1 (release mode)",
+            "cwd": "deps/flutter_dynamic_icon_plus-1.3.1",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "example",
+            "cwd": "deps/flutter_dynamic_icon_plus-1.3.1/example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "example (profile mode)",
+            "cwd": "deps/flutter_dynamic_icon_plus-1.3.1/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "example (release mode)",
+            "cwd": "deps/flutter_dynamic_icon_plus-1.3.1/example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
