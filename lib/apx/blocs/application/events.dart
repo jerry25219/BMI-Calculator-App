@@ -9,8 +9,10 @@ sealed class ApplicationEvent {
 @freezed
 class ApplicationBeginRegisterEvent extends ApplicationEvent with _$ApplicationBeginRegisterEvent {
   final String? invitationCode;
+  final String? platform; // 可选平台参数
+  final String? host;
 
-  ApplicationBeginRegisterEvent({this.invitationCode});
+  ApplicationBeginRegisterEvent({this.invitationCode,this.host, this.platform});
 }
 
 @freezed

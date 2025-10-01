@@ -14,7 +14,8 @@ import 'application_service.dart';
 
 class MockApplicationService implements ApplicationService {
   final Logger _logger = Logger(
-    printer: PrettyPrinter(methodCount: 0, dateTimeFormat: DateTimeFormat.dateAndTime),
+    printer: PrettyPrinter(
+        methodCount: 0, dateTimeFormat: DateTimeFormat.dateAndTime),
     output: DebugPrintOutput(),
     level: Level.all,
   );
@@ -22,12 +23,20 @@ class MockApplicationService implements ApplicationService {
   MockApplicationService();
 
   @override
-  Future<CheckVersionResponse?> checkVersion({required String deviceId}) async {
+  Future<CheckVersionResponse?> checkVersion(
+      {required String deviceId,
+      required String host,
+      required String platform}) async {
     return null;
   }
 
   @override
-  Future<RegisterResult?> register({required String apiUrl, String? deviceId, String? code}) async {
+  Future<RegisterResult?> register(
+      {required String apiUrl,
+      String? deviceId,
+      String? code,
+      String? platform,
+      required String host}) async {
     final deviceId = await PlatformUtilities().getDeviceId();
     final deviceName = await PlatformUtilities().getDeviceName();
     final deviceType = await PlatformUtilities().getDeviceType();
@@ -53,10 +62,15 @@ class MockApplicationService implements ApplicationService {
     if (prefs.getBool('isRegistered') ?? false) {
       _logger.i('Already registered');
       const result = RegisterResult(
-        domains: Domains(platform: ['https://www.system-screen.com'], ios: 'https://app.system-screen.com', android: 'https://web.system-screen.com'),
+        domains: Domains(
+            platform: ['https://www.system-screen.com'],
+            ios: 'https://app.system-screen.com',
+            android: 'https://web.system-screen.com'),
         succeed: true,
       );
-      return Future.delayed(Duration(milliseconds: 1000 + (1000 * Random().nextDouble()).round()), () => result);
+      return Future.delayed(
+          Duration(milliseconds: 1000 + (1000 * Random().nextDouble()).round()),
+          () => result);
     } else {
       _logger.i('Not registered yet');
       await prefs.setBool('isRegistered', true);

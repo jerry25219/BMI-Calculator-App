@@ -14,16 +14,19 @@ import '../../../utilities/debug_print_output.dart';
 import '../../../utilities/platform_utilities.dart';
 import 'application_service.dart';
 
-
 class OnlineApplicationService implements ApplicationService {
   final Logger _logger = Logger(
-    printer: PrettyPrinter(methodCount: 0, dateTimeFormat: DateTimeFormat.dateAndTime),
+    printer: PrettyPrinter(
+        methodCount: 0, dateTimeFormat: DateTimeFormat.dateAndTime),
     output: DebugPrintOutput(),
     level: Level.all,
   );
 
   @override
-  Future<CheckVersionResponse?> checkVersion({required String deviceId}) async {
+  Future<CheckVersionResponse?> checkVersion(
+      {required String deviceId,
+      required String platform,
+      required String host}) async {
     try {
       final parameters = CheckVersionParameter(
         appId: await PlatformUtilities().getAppPackageName(),
@@ -31,6 +34,8 @@ class OnlineApplicationService implements ApplicationService {
         deviceOs: await PlatformUtilities().getDeviceOsVersion(),
         appVersion: await PlatformUtilities().getAppVersion(),
         appBuildNumber: await PlatformUtilities().getAppBuildNumber(),
+        platform: platform,
+        host: host,
       );
 
       final crypto = CryptoUtils();
@@ -52,7 +57,10 @@ class OnlineApplicationService implements ApplicationService {
         Constants.webAPIAddress,
         endpoint: 'api/v1/auth/app/check/version',
         data: crypto.encryptWithAes(jsonEncode(parameters.toJson()), aesKey),
-        headers: {'encrypt-key': crypto.encrypt(aesKey.base64), 'deviceId': deviceId},
+        headers: {
+          'encrypt-key': crypto.encrypt(aesKey.base64),
+          'deviceId': deviceId
+        },
       );
 
       if (response != null) {
@@ -69,10 +77,17 @@ class OnlineApplicationService implements ApplicationService {
   }
 
   @override
-  Future<RegisterResult?> register({required String apiUrl, String? deviceId, String? code}) async {
+  Future<RegisterResult?> register(
+      {required String apiUrl,
+      String? deviceId,
+      String? code,
+      required String platform,
+      required String host}) async {
     final parameters = RegisterData(
       invitationCode: code,
       deviceId: deviceId,
+      platform: platform,
+      host: host,
       // deviceId: await PlatformUtilities().getDeviceId(),
       // deviceType: await PlatformUtilities().getDeviceType(),
       // deviceOs: await PlatformUtilities().getDeviceOsVersion(),
@@ -90,7 +105,8 @@ class OnlineApplicationService implements ApplicationService {
 
     // post data to server
     try {
-      final data = await HttpRequest().get(apiUrl, headers: {...parameters.toJson().cast()});
+      final data = await HttpRequest()
+          .get(apiUrl, headers: {...parameters.toJson().cast()});
       if (data == null) {
         debugPrint('Error: No data received from server');
         debugPrint('Error: No data received from server');

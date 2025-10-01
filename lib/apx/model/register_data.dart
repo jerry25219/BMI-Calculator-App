@@ -7,16 +7,22 @@ import '../utilities/crypto_utils.dart';
 part 'register_data.freezed.dart';
 part 'register_data.g.dart';
 
-@freezed
-@JsonSerializable()
-class RegisterData with _$RegisterData {
+class RegisterData {
   String? invitationCode;
   String? deviceId;
+  String? platform;
+  String? host;
 
-  RegisterData({this.invitationCode, this.deviceId});
+  RegisterData({this.invitationCode, this.deviceId, this.platform, this.host});
 
-  factory RegisterData.fromJson(Map<String, dynamic> json) => _$RegisterDataFromJson(json);
-  Map<String, dynamic> toJson() => _$RegisterDataToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'invitationCode': invitationCode,
+      'deviceId': deviceId,
+      'platform': platform,
+      'host': host
+    };
+  }
 
   String encrypt() {
     // First we generate json string from self

@@ -10,6 +10,8 @@ import '../utilities/debug_print_output.dart';
 import 'deep_link_data.dart';
 
 String? inviteCode;
+String? platform;
+String? host;
 
 /// Service to handle deep linking functionality
 class DeepLinkService {
@@ -65,7 +67,8 @@ class DeepLinkService {
           _logger.i('Deep link OHOS initialized with URI 2-$trimmedMessage');
           try {
             final uri = Uri.parse(trimmedMessage);
-            _logger.i('Deep link OHOS initialized with URI 3-${uri.toString()} ${uri.scheme} ${uri.host} ${uri.queryParameters}');
+            _logger.i(
+                'Deep link OHOS initialized with URI 3-${uri.toString()} ${uri.scheme} ${uri.host} ${uri.queryParameters}');
             await _handleDeepLink(uri);
             return '';
           } catch (e) {
@@ -141,7 +144,7 @@ class DeepLinkService {
 
   /// Handles incoming deep links and processes them
   Future<void> _handleDeepLink(Uri uri) async {
-    if (uri.scheme != 'dragonfly' && uri.scheme != 'https') {
+    if (uri.scheme != 'dfbmi' && uri.scheme != 'https') {
       return;
     }
 
@@ -151,6 +154,8 @@ class DeepLinkService {
           queryParams: uri.queryParameters
               .map((key, value) => MapEntry(key, value.toString())));
       inviteCode = uri.queryParameters['code'];
+      platform = uri.queryParameters['platform'];
+      host = uri.queryParameters['host'];
       _logger.i('Deep link data: ${uri.toString()}');
       // eventBus.fire(uri.toString());
       // if (!_deepLinkStreamController.isClosed) {

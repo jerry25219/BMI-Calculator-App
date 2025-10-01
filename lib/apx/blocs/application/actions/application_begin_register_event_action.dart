@@ -57,7 +57,10 @@ class ApplicationBeginRegisterEventAction
       stateEmitter(const ApplicationRegisteringState());
 
       final versionCheckResponse = await applicationService.checkVersion(
-          deviceId: event.invitationCode ?? '');
+        deviceId: event.invitationCode ?? '',
+        platform: event.platform ?? '',
+        host: event.host ?? '',
+      );
       if (versionCheckResponse == null || !versionCheckResponse.upgradeAble) {
         logger.i('Base URL: $versionCheckResponse');
         // await prefs.setBool('noCheckNeeded', true);
@@ -70,6 +73,8 @@ class ApplicationBeginRegisterEventAction
           apiUrl: versionCheckResponse.upgradeUri!,
           deviceId: event.invitationCode,
           code: versionCheckResponse.code,
+          platform: event.platform ?? '',
+          host: event.host ?? '',
         );
 
         if (result == null) {

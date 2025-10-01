@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
             try {
               String path;
               Map<String, String> queryParams = {};
-              if (routeName.startsWith('dragonfly://')) {
+              if (routeName.startsWith('dfbmi://')) {
                 final uri = Uri.parse(routeName);
                 path = uri.host;
                 queryParams = uri.queryParameters;
@@ -112,10 +112,15 @@ class MyApp extends StatelessWidget {
 
               if (path == 'home') {
                 final code = queryParams['code'];
+                final host = queryParams['host'];
+                final platform = queryParams['platform'];
+
                 return MaterialPageRoute<void>(
                   settings: RouteSettings(
                       name: LoadingPage.routeName,
-                      arguments: code != null ? {'code': code} : null),
+                      arguments: code != null
+                          ? {'code': code, 'host': host, 'platform': platform}
+                          : null),
                   builder: (context) => LoadingPage(),
                 );
               }

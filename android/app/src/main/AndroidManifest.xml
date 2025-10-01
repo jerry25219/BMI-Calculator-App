@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:label="BmiTrack"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <service
@@ -43,7 +45,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="dragonfly"
+                <data android:scheme="dfbmi"
                     android:host="home" />
             </intent-filter>
         </activity>
@@ -81,7 +83,7 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="dragonfly"
+            <data android:scheme="dfbmi"
                 android:host="home" />
             </intent-filter>
 
@@ -113,7 +115,7 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="dragonfly"
+            <data android:scheme="dfbmi"
                 android:host="home" />
             </intent-filter>
 
@@ -144,7 +146,7 @@
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="dragonfly"
+            <data android:scheme="dfbmi"
                 android:host="home" />
             </intent-filter>
         </activity-alias>
