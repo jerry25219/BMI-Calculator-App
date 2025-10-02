@@ -11,7 +11,6 @@ import 'BMIHistoryPage.dart';
 import '../Components/BottomContainer_Button.dart';
 import '../calculator_brain.dart';
 import 'feedback_page.dart';
-import 'privacy_policy_screen.dart';
 
 // ignore: must_be_immutable
 class InputPage extends StatefulWidget {

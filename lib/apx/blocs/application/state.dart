@@ -1,13 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'state.freezed.dart';
-
-sealed class ApplicationState {
+abstract class ApplicationState {
   const ApplicationState();
 }
 
-@freezed
-class ApplicationErrorState extends ApplicationState with _$ApplicationErrorState {
+class ApplicationErrorState extends ApplicationState {
   final String error;
   ApplicationErrorState({required this.error});
 }
@@ -20,8 +16,7 @@ class ApplicationRegisteringState extends ApplicationState {
   const ApplicationRegisteringState();
 }
 
-@freezed
-class ApplicationReadyState extends ApplicationState with _$ApplicationReadyState {
+class ApplicationReadyState extends ApplicationState {
   final List<String>? domains;
   const ApplicationReadyState({this.domains});
 }

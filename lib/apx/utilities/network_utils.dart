@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:logger/logger.dart';
 
-import 'package:http/http.dart' as http;
 
-import '../constants.dart';
 import 'debug_print_output.dart';
 
 class NetworkUtils {

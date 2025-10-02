@@ -91,7 +91,6 @@ class MyApp extends StatelessWidget {
         routes: _routes,
         onGenerateRoute: (RouteSettings settings) {
           final String? routeName = settings.name;
-          final Object? arguments = settings.arguments;
 
           if (routeName != null) {
             try {

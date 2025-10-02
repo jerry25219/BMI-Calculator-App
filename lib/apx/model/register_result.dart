@@ -1,14 +1,15 @@
 // import 'package:flutter/foundation.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'domains.dart';
+import 'package:bmi_calculator_app/apx/model/domains.dart';
 
-part 'register_result.freezed.dart';
-part 'register_result.g.dart';
+class RegisterResult {
+  final Domains domains;
+  final bool succeed;
 
-@freezed
-abstract class RegisterResult with _$RegisterResult {
-  const factory RegisterResult({required Domains domains, required bool succeed}) = _RegisterResult;
+  const RegisterResult({required this.domains, required this.succeed});
 
-  factory RegisterResult.fromJson(Map<String, dynamic> json) => _$RegisterResultFromJson(json);
+  factory RegisterResult.fromJson(Map<String, dynamic> json) {
+    return RegisterResult(
+        domains: Domains.fromJson(json['domains']), succeed: json['succeed']);
+  }
 }

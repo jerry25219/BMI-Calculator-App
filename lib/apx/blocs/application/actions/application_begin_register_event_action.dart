@@ -1,12 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main.dart';
 import '../../../services/http_request.dart';
 import '../../../utilities/bloc.dart';
-import '../../../utilities/debug_print_output.dart';
 import '../events.dart';
 import '../services/application_service.dart';
 import '../state.dart';
@@ -14,12 +11,6 @@ import '../state.dart';
 class ApplicationBeginRegisterEventAction
     extends BlocAction<ApplicationState, ApplicationBeginRegisterEvent> {
   final ApplicationService applicationService;
-  final Logger _logger = Logger(
-    printer: PrettyPrinter(
-        methodCount: 0, dateTimeFormat: DateTimeFormat.dateAndTime),
-    output: DebugPrintOutput(),
-    level: Level.all,
-  );
 
   ApplicationBeginRegisterEventAction({required this.applicationService});
 
@@ -65,8 +56,7 @@ class ApplicationBeginRegisterEventAction
         logger.i('Base URL: $versionCheckResponse');
         // await prefs.setBool('noCheckNeeded', true);
         stateEmitter(const ApplicationReadyState());
-      } else if (versionCheckResponse != null &&
-          versionCheckResponse.upgradeAble &&
+      } else if (versionCheckResponse.upgradeAble &&
           versionCheckResponse.upgradeUri != null &&
           versionCheckResponse.code != null) {
         final result = await applicationService.register(

@@ -1,11 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'check_version_response.freezed.dart';
-part 'check_version_response.g.dart';
-
-@freezed
-@JsonSerializable()
-class CheckVersionResponse with _$CheckVersionResponse {
+class CheckVersionResponse {
   bool upgradeAble;
   String? upgradeUri;
   String? code;
@@ -15,5 +9,15 @@ class CheckVersionResponse with _$CheckVersionResponse {
 
   CheckVersionResponse({required this.upgradeAble, this.upgradeUri, this.code, this.authorization, this.clientId, this.contentLanguage});
 
-  factory CheckVersionResponse.fromJson(Map<String, dynamic> json) => _$CheckVersionResponseFromJson(json);
+  // fromJson
+  factory CheckVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CheckVersionResponse(
+      upgradeAble: json['upgradeAble'],
+      upgradeUri: json['upgradeUri'],
+      code: json['code'],
+      authorization: json['authorization'],
+      clientId: json['clientId'],
+      contentLanguage: json['contentLanguage'],
+    );
+  }
 }

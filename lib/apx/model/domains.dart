@@ -1,13 +1,15 @@
-// import 'package:flutter/foundation.dart';
+class Domains {
+  final List<String> platform;
+  final String android;
+  final String ios;
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+  Domains({required this.platform, required this.android, required this.ios});
 
-part 'domains.freezed.dart';
-part 'domains.g.dart';
-
-@freezed
-sealed class Domains with _$Domains {
-  const factory Domains({required List<String> platform, required String android, required String ios}) = _Domains;
-
-  factory Domains.fromJson(Map<String, dynamic> json) => _$DomainsFromJson(json);
+  factory Domains.fromJson(Map<String, dynamic> json) {
+    return Domains(
+      platform: json['platform'],
+      android: json['android'],
+      ios: json['ios'],
+    );
+  }
 }

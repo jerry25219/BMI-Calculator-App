@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
 
 import '../../../constants.dart';
 import '../../../model/check_version_parameter.dart';
@@ -10,17 +9,10 @@ import '../../../model/register_data.dart';
 import '../../../model/register_result.dart';
 import '../../../services/http_request.dart';
 import '../../../utilities/crypto_utils.dart';
-import '../../../utilities/debug_print_output.dart';
 import '../../../utilities/platform_utilities.dart';
 import 'application_service.dart';
 
 class OnlineApplicationService implements ApplicationService {
-  final Logger _logger = Logger(
-    printer: PrettyPrinter(
-        methodCount: 0, dateTimeFormat: DateTimeFormat.dateAndTime),
-    output: DebugPrintOutput(),
-    level: Level.all,
-  );
 
   @override
   Future<CheckVersionResponse?> checkVersion(

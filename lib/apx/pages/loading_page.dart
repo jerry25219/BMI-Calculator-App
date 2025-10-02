@@ -1,14 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:bmi_calculator_app/Screens/input_page.dart';
 import 'package:bmi_calculator_app/Screens/splash_screen.dart';
 import 'package:bmi_calculator_app/apx/real_app/webview_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Screens/privacy_policy_screen.dart';
 import '../../main.dart';
 import '../blocs/application/application_bloc.dart';
 import '../blocs/application/events.dart';

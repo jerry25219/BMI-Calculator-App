@@ -1,11 +1,7 @@
 import 'dart:convert';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-
 import '../utilities/crypto_utils.dart';
 
-part 'register_data.freezed.dart';
-part 'register_data.g.dart';
 
 class RegisterData {
   String? invitationCode;

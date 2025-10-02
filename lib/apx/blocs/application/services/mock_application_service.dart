@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:logger/web.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,9 +60,9 @@ class MockApplicationService implements ApplicationService {
 
     if (prefs.getBool('isRegistered') ?? false) {
       _logger.i('Already registered');
-      const result = RegisterResult(
+      final result = RegisterResult(
         domains: Domains(
-            platform: ['https://www.system-screen.com'],
+            platform: const ['https://www.system-screen.com'],
             ios: 'https://app.system-screen.com',
             android: 'https://web.system-screen.com'),
         succeed: true,

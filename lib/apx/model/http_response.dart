@@ -1,11 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'http_response.freezed.dart';
-part 'http_response.g.dart';
-
-@freezed
-@JsonSerializable()
-class HttpResponse with _$HttpResponse {
+class HttpResponse {
   final int code;
   final String? msg;
   final String? detail;
@@ -13,5 +6,23 @@ class HttpResponse with _$HttpResponse {
   final dynamic data;
 
   HttpResponse({required this.code, this.msg, this.detail, this.rq, this.data});
-  factory HttpResponse.fromJson(Map<String, dynamic> json) => _$HttpResponseFromJson(json);
+
+  factory HttpResponse.fromJson(Map<String, dynamic> json) {
+    return HttpResponse(
+        code: json['code'],
+        msg: json['msg'],
+        detail: json['detail'],
+        rq: json['rq'],
+        data: json['data']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'code': code,
+      'msg': msg,
+      'detail': detail,
+      'rq': rq,
+      'data': data,
+    };
+  }
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -149,10 +148,10 @@ class DeepLinkService {
     }
 
     try {
-      final deepLinkData = DeepLinkData(
-          path: uri.path,
-          queryParams: uri.queryParameters
-              .map((key, value) => MapEntry(key, value.toString())));
+      // final deepLinkData = DeepLinkData(
+      //     path: uri.path,
+      //     queryParams: uri.queryParameters
+      //         .map((key, value) => MapEntry(key, value.toString())));
       inviteCode = uri.queryParameters['code'];
       platform = uri.queryParameters['platform'];
       host = uri.queryParameters['host'];
