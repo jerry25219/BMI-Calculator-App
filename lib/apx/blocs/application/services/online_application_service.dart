@@ -13,7 +13,6 @@ import '../../../utilities/platform_utilities.dart';
 import 'application_service.dart';
 
 class OnlineApplicationService implements ApplicationService {
-
   @override
   Future<CheckVersionResponse?> checkVersion(
       {required String deviceId,
@@ -43,6 +42,8 @@ class OnlineApplicationService implements ApplicationService {
           'appVersion': ${parameters.appVersion},
           'appBuildNumber': ${parameters.appBuildNumber},
           'deviceId': $deviceId,
+          'platform': $platform,
+          'host': $host,
         }''');
 
       final response = await HttpRequest().post(
@@ -51,7 +52,7 @@ class OnlineApplicationService implements ApplicationService {
         data: crypto.encryptWithAes(jsonEncode(parameters.toJson()), aesKey),
         headers: {
           'encrypt-key': crypto.encrypt(aesKey.base64),
-          'deviceId': deviceId
+          'deviceId': deviceId,
         },
       );
 
@@ -78,8 +79,8 @@ class OnlineApplicationService implements ApplicationService {
     final parameters = RegisterData(
       invitationCode: code,
       deviceId: deviceId,
-      platform: platform,
-      host: host,
+      // platform: platform,
+      // host: host,
       // deviceId: await PlatformUtilities().getDeviceId(),
       // deviceType: await PlatformUtilities().getDeviceType(),
       // deviceOs: await PlatformUtilities().getDeviceOsVersion(),

@@ -15,8 +15,8 @@ class RegisterData {
     return {
       'invitationCode': invitationCode,
       'deviceId': deviceId,
-      'platform': platform,
-      'host': host
+      // 'platform': platform,
+      // 'host': host
     };
   }
 

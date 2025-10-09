@@ -9,7 +9,7 @@
             android:name="com.solusibejo.flutter_dynamic_icon_plus.FlutterDynamicIconPlusService"
             android:stopWithTask="false"/>
         <activity
-            android:name=".MainActivity"
+            android:name="com.dragonfly.bmi.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
@@ -63,7 +63,7 @@
             android:name=".prod"
             android:exported="true"
             android:enabled="false"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="com.dragonfly.bmi.MainActivity">
 
            
             <intent-filter>
@@ -96,7 +96,7 @@
             android:name=".pre"
             android:exported="true"
             android:enabled="false"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="com.dragonfly.bmi.MainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -128,7 +128,7 @@
             android:name=".test"
             android:exported="true"
             android:enabled="false"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="com.dragonfly.bmi.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

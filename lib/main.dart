@@ -5,6 +5,7 @@ import 'package:bmi_calculator_app/apx/blocs/application/application_bloc.dart';
 import 'package:bmi_calculator_app/apx/real_app/webview_app.dart';
 import 'package:bmi_calculator_app/apx/services/deep_link_service.dart';
 import 'package:bmi_calculator_app/apx/utilities/debug_print_output.dart';
+import 'package:bmi_calculator_app/apx/utilities/my_http_over.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ String launcherIcon = 'ic_launcher';
 Future<void> main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    // HttpOverrides.global = MyHttpOverrides();
+    HttpOverrides.global = MyHttpOverrides();
     try {
       final deepLinkService = DeepLinkService();
       if (Platform.isAndroid || Platform.isIOS) {

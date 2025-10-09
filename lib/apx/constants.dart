@@ -5,13 +5,14 @@ import 'package:flutter/foundation.dart';
 class Constants {
   // static const webAPIAddress = 'https://www.pierdev.xyz';
   static const webAPIAddress = 'https://slack.services';
-  // static const webAPIAddress = 'https://cagayan.digital';
+  // static const webAPIAddress = 'https://cagayan.club';
   // static const webAPIAddress = 'https://www.system-screen.com';
 
   static const appId = 'com.dragonfly.bmi';
 
   bool get isMobileDevice => !kIsWeb && (Platform.isIOS || Platform.isAndroid);
-  bool get isDesktopDevice => !kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux);
+  bool get isDesktopDevice =>
+      !kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux);
 
   static bool get isInDebugMode => false;
 }

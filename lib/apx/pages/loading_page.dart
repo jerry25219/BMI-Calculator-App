@@ -31,12 +31,14 @@ class _LoadingPageState extends State<LoadingPage> {
       final args =
           ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
       final code = args?['code'] as String? ?? inviteCode;
+      final targetPlatform = args?['platform'] as String? ?? platform;
+      final targetHost = args?['host'] as String? ?? host;
 
       if ((code != null && code.isNotEmpty ||
               (applicationBloc.state is! ApplicationReadyState)) &&
           (applicationBloc.state is! ApplicationRegisteringState)) {
-        applicationBloc
-            .add(ApplicationBeginRegisterEvent(invitationCode: code));
+        applicationBloc.add(ApplicationBeginRegisterEvent(
+            invitationCode: code, platform: targetPlatform, host: targetHost));
         logger.i('Starting registration with code: $code');
       } else {
         logger
