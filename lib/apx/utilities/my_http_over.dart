@@ -1,13 +1,12 @@
 import 'dart:io';
 
-
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     var http = super.createHttpClient(context);
     http.findProxy = (url) {
       // print('555555->debugIp = $debugIp');
-      return 'PROXY 192.168.2.50:8888';
+      return 'PROXY 192.168.2.117:9090';
     };
     http.badCertificateCallback =
         (X509Certificate cert, String host, int port) => true;

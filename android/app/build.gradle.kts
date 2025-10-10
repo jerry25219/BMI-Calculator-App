@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dragonfly.bmi"
+    namespace = "com.dragonfly.calculator"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 //    ndkVersion = flutter.ndkVersion
@@ -19,7 +19,7 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
     defaultConfig {
-        applicationId = "com.dragonfly.bmi"
+        applicationId = "com.dragonfly.calculator"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

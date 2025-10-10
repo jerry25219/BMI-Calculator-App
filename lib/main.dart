@@ -30,6 +30,14 @@ String launcherIcon = 'ic_launcher';
 Future<void> main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    // 仅支持竖屏（Flutter 层约束）
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    /// 仅支持竖屏
+
     HttpOverrides.global = MyHttpOverrides();
     try {
       final deepLinkService = DeepLinkService();

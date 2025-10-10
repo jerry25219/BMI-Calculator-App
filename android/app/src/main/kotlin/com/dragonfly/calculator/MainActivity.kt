@@ -1,4 +1,4 @@
-package com.dragonfly.bmi
+package com.dragonfly.calculator
 
 import io.flutter.embedding.android.FlutterActivity
 
