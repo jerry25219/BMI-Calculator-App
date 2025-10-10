@@ -13,3 +13,4 @@ https://gitlab.system-screen.com/phoenix-cloud/phoenix-appldy
 7. 视频播放功能长亮
 8. 断网重连功能
 9. 换图标功能
+10. Android视频常亮

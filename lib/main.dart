@@ -6,6 +6,7 @@ import 'package:bmi_calculator_app/apx/real_app/webview_app.dart';
 import 'package:bmi_calculator_app/apx/services/deep_link_service.dart';
 import 'package:bmi_calculator_app/apx/utilities/debug_print_output.dart';
 import 'package:bmi_calculator_app/apx/utilities/my_http_over.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,8 +38,9 @@ Future<void> main() async {
     ]);
 
     /// 仅支持竖屏
-
-    HttpOverrides.global = MyHttpOverrides();
+    if (kDebugMode) {
+      HttpOverrides.global = MyHttpOverrides();
+    }
     try {
       final deepLinkService = DeepLinkService();
       if (Platform.isAndroid || Platform.isIOS) {
