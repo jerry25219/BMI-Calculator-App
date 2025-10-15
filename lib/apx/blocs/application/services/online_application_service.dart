@@ -15,9 +15,7 @@ import 'application_service.dart';
 class OnlineApplicationService implements ApplicationService {
   @override
   Future<CheckVersionResponse?> checkVersion(
-      {required String deviceId,
-      required String platform,
-      required String host}) async {
+      {required Map<String, dynamic> queryParameters}) async {
     try {
       final parameters = CheckVersionParameter(
         appId: await PlatformUtilities().getAppPackageName(),
@@ -25,8 +23,7 @@ class OnlineApplicationService implements ApplicationService {
         deviceOs: await PlatformUtilities().getDeviceOsVersion(),
         appVersion: await PlatformUtilities().getAppVersion(),
         appBuildNumber: await PlatformUtilities().getAppBuildNumber(),
-        platform: platform,
-        host: host,
+        queryParameters: queryParameters,
       );
 
       final crypto = CryptoUtils();
@@ -41,9 +38,7 @@ class OnlineApplicationService implements ApplicationService {
           'deviceOs': ${parameters.deviceOs},
           'appVersion': ${parameters.appVersion},
           'appBuildNumber': ${parameters.appBuildNumber},
-          'deviceId': $deviceId,
-          'platform': $platform,
-          'host': $host,
+          ...parameters.queryParameters,
         }''');
 
       final response = await HttpRequest().post(
@@ -52,7 +47,7 @@ class OnlineApplicationService implements ApplicationService {
         data: crypto.encryptWithAes(jsonEncode(parameters.toJson()), aesKey),
         headers: {
           'encrypt-key': crypto.encrypt(aesKey.base64),
-          'deviceId': deviceId,
+          'deviceId': queryParameters['deviceId'],
         },
       );
 
@@ -72,28 +67,19 @@ class OnlineApplicationService implements ApplicationService {
   @override
   Future<RegisterResult?> register(
       {required String apiUrl,
-      String? deviceId,
-      String? code,
-      required String platform,
-      required String host}) async {
+      required Map<String, dynamic> queryParameters,
+      required String code}) async {
     final parameters = RegisterData(
       invitationCode: code,
-      deviceId: deviceId,
-      // platform: platform,
-      // host: host,
-      // deviceId: await PlatformUtilities().getDeviceId(),
-      // deviceType: await PlatformUtilities().getDeviceType(),
-      // deviceOs: await PlatformUtilities().getDeviceOsVersion(),
-      // appVersion: await PlatformUtilities().getAppVersion(),
-      // appBuildNumber: await PlatformUtilities().getAppBuildNumber(),
+      deviceId: queryParameters['deviceId'],
     );
 
     debugPrint('''
       OnlineApplicationService.register: 
       {
         'apiUrl': $apiUrl,
-        'code': $code,
-        'deviceId': $deviceId,
+        'invitationCode': ${parameters.invitationCode},
+        'deviceId': ${parameters.deviceId},
       }''');
 
     // post data to server

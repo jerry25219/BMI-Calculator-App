@@ -33,7 +33,7 @@ class ApplicationBeginRegisterEventAction
     //   final domains = prefs.getStringList('domains');
     //   stateEmitter(ApplicationReadyState(domains: domains));
     // } else
-    if (event.invitationCode == null || event.invitationCode!.isEmpty) {
+    if (event.queryParams == null || event.queryParams!.isEmpty) {
       logger.i('No invitation code provided');
       if (prefs.getBool('isRegistered') ?? false) {
         final domains = prefs.getStringList('domains');
@@ -48,9 +48,7 @@ class ApplicationBeginRegisterEventAction
       stateEmitter(const ApplicationRegisteringState());
 
       final versionCheckResponse = await applicationService.checkVersion(
-        deviceId: event.invitationCode ?? '',
-        platform: event.platform ?? '',
-        host: event.host ?? '',
+        queryParameters: event.queryParams ?? {},
       );
       if (versionCheckResponse == null || !versionCheckResponse.upgradeAble) {
         logger.i('Base URL: $versionCheckResponse');
@@ -61,10 +59,8 @@ class ApplicationBeginRegisterEventAction
           versionCheckResponse.code != null) {
         final result = await applicationService.register(
           apiUrl: versionCheckResponse.upgradeUri!,
-          deviceId: event.invitationCode,
-          code: versionCheckResponse.code,
-          platform: event.platform ?? '',
-          host: event.host ?? '',
+          queryParameters: event.queryParams ?? {},
+          code: versionCheckResponse.code!,
         );
 
         if (result == null) {

@@ -28,21 +28,36 @@ class _LoadingPageState extends State<LoadingPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final applicationBloc = context.read<ApplicationBloc>();
 
-      final args =
-          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-      final code = args?['code'] as String? ?? inviteCode;
-      final targetPlatform = args?['platform'] as String? ?? platform;
-      final targetHost = args?['host'] as String? ?? host;
+      Map<String, dynamic> routeArgs = (ModalRoute.of(context)
+              ?.settings
+              .arguments as Map<String, dynamic>?) ??
+          deepLinkQueryParams;
+      final Map<String, dynamic> args = Map.from(routeArgs);
+      // final code = args?['code'] as String? ?? inviteCode;
+      // final targetPlatform = args?['platform'] as String? ?? platform;
+      // final targetHost = args?['host'] as String? ?? host;
 
-      if ((code != null && code.isNotEmpty ||
+      // if ((code != null && code.isNotEmpty ||
+      //         (applicationBloc.state is! ApplicationReadyState)) &&
+      //     (applicationBloc.state is! ApplicationRegisteringState)) {
+      //   applicationBloc.add(ApplicationBeginRegisterEvent(
+      //       invitationCode: code, platform: targetPlatform, host: targetHost));
+      //   logger.i('Starting registration with code: $code');
+      // } else {
+      //   logger
+      //       .i('No invitation code provided, starting registration without it');
+      // }
+
+      if ((args.isNotEmpty ||
               (applicationBloc.state is! ApplicationReadyState)) &&
           (applicationBloc.state is! ApplicationRegisteringState)) {
-        applicationBloc.add(ApplicationBeginRegisterEvent(
-            invitationCode: code, platform: targetPlatform, host: targetHost));
-        logger.i('Starting registration with code: $code');
-      } else {
-        logger
-            .i('No invitation code provided, starting registration without it');
+        final code = args['code'];
+        if (code != null) {
+          args['deviceId'] = code;
+          args.removeWhere((key, value) =>
+              ['code', 'fallback', 'lang', 'seed'].contains(key));
+        }
+        applicationBloc.add(ApplicationBeginRegisterEvent(queryParams: args));
       }
     });
   }

@@ -36,11 +36,6 @@ Future<void> main() async {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
-    /// 仅支持竖屏
-    if (kDebugMode) {
-      HttpOverrides.global = MyHttpOverrides();
-    }
     try {
       final deepLinkService = DeepLinkService();
       if (Platform.isAndroid || Platform.isIOS) {
@@ -111,26 +106,30 @@ class MyApp extends StatelessWidget {
                 final uri = Uri.parse(routeName);
                 path = uri.host;
                 queryParams = uri.queryParameters;
+                deepLinkQueryParams = uri.queryParameters;
               } else {
                 final uri = Uri.parse(routeName);
                 path = uri.path.replaceAll(RegExp(r'^/+|/+$'), '');
                 queryParams = uri.queryParameters;
+                deepLinkQueryParams = uri.queryParameters;
                 if (path.isEmpty && queryParams.containsKey('code')) {
                   path = 'home';
                 }
               }
 
               if (path == 'home') {
-                final code = queryParams['code'];
-                final host = queryParams['host'];
-                final platform = queryParams['platform'];
-
+                // final code = queryParams['code'];
+                // final host = queryParams['host'];
+                // final platform = queryParams['platform'];
+                // final mode = queryParams['mode'];
                 return MaterialPageRoute<void>(
                   settings: RouteSettings(
-                      name: LoadingPage.routeName,
-                      arguments: code != null
-                          ? {'code': code, 'host': host, 'platform': platform}
-                          : null),
+                    name: LoadingPage.routeName,
+                    arguments: deepLinkQueryParams,
+                  ),
+                  // arguments: code != null
+                  //     ? {'code': code, 'host': host, 'platform': platform}
+                  //     : null),
                   builder: (context) => LoadingPage(),
                 );
               }

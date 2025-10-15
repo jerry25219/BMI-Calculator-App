@@ -11,6 +11,8 @@ import 'deep_link_data.dart';
 String? inviteCode;
 String? platform;
 String? host;
+String? mode;
+Map<String, String> deepLinkQueryParams = {};
 
 /// Service to handle deep linking functionality
 class DeepLinkService {
@@ -148,19 +150,12 @@ class DeepLinkService {
     }
 
     try {
-      // final deepLinkData = DeepLinkData(
-      //     path: uri.path,
-      //     queryParams: uri.queryParameters
-      //         .map((key, value) => MapEntry(key, value.toString())));
       inviteCode = uri.queryParameters['code'];
       platform = uri.queryParameters['platform'];
       host = uri.queryParameters['host'];
+      mode = uri.queryParameters['mode'];
+      deepLinkQueryParams = uri.queryParameters;
       _logger.i('Deep link data: ${uri.toString()}');
-      // eventBus.fire(uri.toString());
-      // if (!_deepLinkStreamController.isClosed) {
-      //   _deepLinkStreamController.add(deepLinkData);
-      // }
-      // _logger.i('Deep link processed: ${uri.toString()}');
     } catch (e, stackTrace) {
       _logger.i('Deep link processing error: $e\n$stackTrace');
       rethrow; // Allow error to be handled by the stream error handler
