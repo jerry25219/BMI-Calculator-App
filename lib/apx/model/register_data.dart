@@ -5,16 +5,18 @@ import '../utilities/crypto_utils.dart';
 
 class RegisterData {
   String? invitationCode;
-  String? deviceId;
-  String? platform;
-  String? host;
+  // String? deviceId;
+  // String? platform;
+  // String? host;
+  Map<String,dynamic>? queryParameters;
 
-  RegisterData({this.invitationCode, this.deviceId, this.platform, this.host});
+  RegisterData({this.invitationCode, this.queryParameters});
 
   Map<String, dynamic> toJson() {
     return {
       'invitationCode': invitationCode,
-      'deviceId': deviceId,
+      ...?queryParameters,
+      // 'deviceId': deviceId,
       // 'platform': platform,
       // 'host': host
     };

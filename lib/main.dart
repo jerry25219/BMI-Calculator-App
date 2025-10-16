@@ -116,7 +116,7 @@ class MyApp extends StatelessWidget {
                   path = 'home';
                 }
               }
-
+              logger.i('deepLink $deepLinkQueryParams');
               if (path == 'home') {
                 // final code = queryParams['code'];
                 // final host = queryParams['host'];

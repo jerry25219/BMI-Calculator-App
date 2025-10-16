@@ -71,16 +71,11 @@ class OnlineApplicationService implements ApplicationService {
       required String code}) async {
     final parameters = RegisterData(
       invitationCode: code,
-      deviceId: queryParameters['deviceId'],
+      queryParameters: queryParameters,
     );
 
     debugPrint('''
-      OnlineApplicationService.register: 
-      {
-        'apiUrl': $apiUrl,
-        'invitationCode': ${parameters.invitationCode},
-        'deviceId': ${parameters.deviceId},
-      }''');
+      OnlineApplicationService.register:${parameters.toJson()}''');
 
     // post data to server
     try {
