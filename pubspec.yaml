@@ -33,7 +33,18 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+# 适配鸿蒙os
+dependency_overrides:
+  webview_flutter:
+    path: deps/webview_flutter/webview_flutter
+  connectivity_plus:
+    path: deps/connectivity_plus/connectivity_plus
+  package_info_plus:
+    path: deps/package_info_plus/package_info_plus
+  device_info_plus:
+    path: deps/device_info_plus/device_info_plus
+  shared_preferences:
+    path: deps/shared_preferences/shared_preferences
 flutter:
   uses-material-design: true
   assets:

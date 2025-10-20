@@ -14,3 +14,5 @@ https://gitlab.system-screen.com/phoenix-cloud/phoenix-appldy
 8. 断网重连功能
 9. 换图标功能
 10. Android视频常亮
+
+flutter create --platforms ohos .

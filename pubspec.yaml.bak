@@ -1,0 +1,47 @@
+name: bmi_calculator_app
+description: A new Flutter project.
+
+publish_to: "none"
+version: 1.0.0+2
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  font_awesome_flutter: ^9.1.0
+  oktoast: ^3.4.0
+  shared_preferences: ^2.3.3
+  url_launcher: ^6.2.5
+  logger: ^2.6.0
+  encrypt:
+  flutter_bloc:
+  app_links: ^6.4.0
+  freezed_annotation:
+  rxdart:
+  webview_flutter: ^4.13.0
+  webview_flutter_wkwebview: ^3.22.1
+  webview_flutter_android: ^4.8.2
+  connectivity_plus:
+  package_info_plus:
+  device_info_plus:
+  flutter_dynamic_icon_plus:
+    path: deps/flutter_dynamic_icon_plus-1.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/bmi_privacy_policy.html
+    - assets/ic_launcher.png
+    - assets/ic_pre.png
+    - assets/ic_prod.png
+    - assets/ic_test.png
+    - assets/network_error.png
+    - assets/back1.png
+    - assets/back2.png
