@@ -38,7 +38,7 @@ class _RedirectPageState extends State<RedirectPage> {
     );
 
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
-    controller.enableZoom(false);
+    controller.enableZoom(true);
     controller.setBackgroundColor(const Color(0xFF18181D));
 
     // Configure WebView settings

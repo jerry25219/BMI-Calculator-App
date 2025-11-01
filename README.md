@@ -14,3 +14,9 @@ https://gitlab.system-screen.com/phoenix-cloud/phoenix-appldy
 8. 断网重连功能
 9. 换图标功能
 10. Android视频常亮
+
+包网A；
+https://a-bw.kkw2222.xyz/home Test00  1234qwer
+
+
+https://b-bw.kkw2222.xyz/home   包网B    Test00B  1234qwer
