@@ -37,7 +37,7 @@ Future<void> main() async {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    HttpOverrides.global = MyHttpOverrides();
+    // HttpOverrides.global = MyHttpOverrides();
     try {
       final deepLinkService = DeepLinkService();
       if (Platform.isAndroid || Platform.isIOS) {
