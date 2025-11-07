@@ -56,7 +56,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
         
-    <!-- 动态换icon -->
+    <!-- 动态换综合盘icon -->
         <activity-alias
             android:label="BmiTrack"
             android:icon="@mipmap/ic_prod"
@@ -151,6 +151,105 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="dfbmi"
                 android:host="home" />
+            </intent-filter>
+        </activity-alias>
+
+
+        <!-- 动态换包网icon -->
+        <activity-alias
+            android:label="BmiTrack"
+            android:icon="@mipmap/ic_bw_prod"
+            android:roundIcon="@mipmap/ic_bw_prod"
+            android:name=".bw_prod"
+            android:exported="true"
+            android:enabled="false"
+            android:screenOrientation="portrait"
+            android:targetActivity=".MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cagayan365.store" />
+            </intent-filter>
+
+            <!-- Separate intent filter for specific host handling -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dfbmi"
+                    android:host="home" />
+            </intent-filter>
+
+        </activity-alias>
+
+        <activity-alias
+            android:label="BmiTrack"
+            android:icon="@mipmap/ic_bw_pre"
+            android:roundIcon="@mipmap/ic_bw_pre"
+            android:name=".bw_pre"
+            android:exported="true"
+            android:enabled="false"
+            android:screenOrientation="portrait"
+            android:targetActivity=".MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cagayan365.store" />
+            </intent-filter>
+
+            <!-- Separate intent filter for specific host handling -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dfbmi"
+                    android:host="home" />
+            </intent-filter>
+
+        </activity-alias>
+
+        <activity-alias
+            android:label="BmiTrack"
+            android:icon="@mipmap/ic_bw_test"
+            android:roundIcon="@mipmap/ic_bw_test"
+            android:name=".bw_test"
+            android:exported="true"
+            android:enabled="false"
+            android:screenOrientation="portrait"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep linking -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cagayan365.store" />
+            </intent-filter>
+
+            <!-- Separate intent filter for specific host handling -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dfbmi"
+                    android:host="home" />
             </intent-filter>
         </activity-alias>
     </application>

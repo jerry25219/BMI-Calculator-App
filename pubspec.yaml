@@ -2,7 +2,7 @@ name: bmi_calculator_app
 description: A new Flutter project.
 
 publish_to: "none"
-version: 1.0.2+6
+version: 1.0.4+8
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -43,6 +43,9 @@ flutter:
     - assets/ic_pre.png
     - assets/ic_prod.png
     - assets/ic_test.png
+    - assets/ic_bw_prod.png
+    - assets/ic_bw_pre.png
+    - assets/ic_bw_test.png
     - assets/network_error.png
     - assets/back1.png
     - assets/back2.png

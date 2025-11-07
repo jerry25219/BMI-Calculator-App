@@ -7,10 +7,13 @@ import 'package:rxdart/rxdart.dart';
 import '../../main.dart';
 import '../utilities/debug_print_output.dart';
 import 'deep_link_data.dart';
-
+/// 客户端token
 String? inviteCode;
+/// 平台
 String? platform;
+/// host
 String? host;
+/// ？
 String? mode;
 Map<String, String> deepLinkQueryParams = {};
 
