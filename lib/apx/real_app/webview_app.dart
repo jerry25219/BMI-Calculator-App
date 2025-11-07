@@ -240,8 +240,8 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
     } else {
       icon = 'prod';
     }
-    if(platform == 'baowang') {
-      icon = 'bw_'+icon;
+    if (platform == 'baowang') {
+      icon = 'bw_' + icon;
     }
 
     if (icon.isEmpty) {

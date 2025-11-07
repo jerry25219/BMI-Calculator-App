@@ -252,12 +252,12 @@ class _BMITrendPageState extends State<BMITrendPage> {
                     LineChartBarData(
                         spots: spots,
                         isCurved: true,
-                        color: Colors.lightBlueAccent,
+                        color: const Color(0xFF24D876),
                         barWidth: 3,
                         dotData: FlDotData(show: true),
                         belowBarData: BarAreaData(
                             show: true,
-                            color: Colors.lightBlueAccent.withOpacity(0.2)))
+                            color: const Color(0xFF24D876).withOpacity(0.2)))
                   ],
                   extraLinesData: ExtraLinesData(horizontalLines: [
                     HorizontalLine(
@@ -309,7 +309,7 @@ class _BMITrendPageState extends State<BMITrendPage> {
         onSelected: (_) {
           setState(() => _timePreset = preset);
         },
-        selectedColor: Colors.blueAccent,
+        selectedColor: kbottomContainerColor,
         labelStyle: TextStyle(color: selected ? Colors.white : Colors.white70),
       );
     }
@@ -320,7 +320,7 @@ class _BMITrendPageState extends State<BMITrendPage> {
         label: Text(label),
         selected: selected,
         onSelected: (_) => setState(() => _genderFilter = g),
-        selectedColor: Colors.blueAccent,
+        selectedColor: kbottomContainerColor,
         labelStyle: TextStyle(color: selected ? Colors.white : Colors.white70),
       );
     }
@@ -339,7 +339,7 @@ class _BMITrendPageState extends State<BMITrendPage> {
           selColor = Colors.deepOrangeAccent;
           break;
         case CategoryFilter.all:
-          selColor = Colors.blueAccent;
+          selColor = kbottomContainerColor;
           break;
       }
       return ChoiceChip(
