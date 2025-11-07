@@ -17,7 +17,7 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-
+<!--综合盘-->
 			<key>pre</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -46,7 +46,7 @@
 				<false/>
 			</dict>
 
-
+<!--包网-->
 			<key>bw_pre</key>
 			<dict>
 				<key>CFBundleIconFiles</key>

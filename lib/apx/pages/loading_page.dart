@@ -92,20 +92,15 @@ class _LoadingPageState extends State<LoadingPage> {
             logger.i('Current state: $state');
           }
         },
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: launcherIcon.isEmpty
-              ? const SizedBox()
-              : Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      'assets/$launcherIcon.png',
-                      width: 100,
-                    ),
-                  ),
-                ),
+        child: Center(
+          child: Container(
+            width: 50,
+            height: 50,
+            child: CircularProgressIndicator(
+              color: Colors.amber,
+              constraints: BoxConstraints(maxWidth: 50, maxHeight: 50),
+            ),
+          ),
         ),
       ),
     );
