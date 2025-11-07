@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
@@ -192,14 +193,18 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
             return RedirectPage(uri: uri);
           }));
           isRedirecting = false;
-        }
-        if (type == 'popup') {
+        } else if (type == 'popup') {
           bool disableRefresh = data as bool;
           if (_enableRefresh != !disableRefresh) {
             setState(() {
               _enableRefresh = !disableRefresh;
             });
           }
+        } else if (type == 'system') {
+          String uri = data as String;
+
+          /// 跳转系统浏览器
+          launchUrl(Uri.parse(uri), mode: LaunchMode.externalApplication);
         }
       },
     );
