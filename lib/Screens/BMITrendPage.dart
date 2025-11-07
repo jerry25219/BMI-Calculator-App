@@ -306,6 +306,8 @@ class _BMITrendPageState extends State<BMITrendPage> {
       return ChoiceChip(
         label: Text(label),
         selected: selected,
+        showCheckmark: false,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 8),
         onSelected: (_) {
           setState(() => _timePreset = preset);
         },
@@ -319,6 +321,8 @@ class _BMITrendPageState extends State<BMITrendPage> {
       return ChoiceChip(
         label: Text(label),
         selected: selected,
+        showCheckmark: false,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 8),
         onSelected: (_) => setState(() => _genderFilter = g),
         selectedColor: kbottomContainerColor,
         labelStyle: TextStyle(color: selected ? Colors.white : Colors.white70),
@@ -345,6 +349,8 @@ class _BMITrendPageState extends State<BMITrendPage> {
       return ChoiceChip(
         label: Text(label),
         selected: selected,
+        showCheckmark: false,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 8),
         onSelected: (_) => setState(() => _categoryFilter = c),
         selectedColor: selColor,
         labelStyle: TextStyle(color: selected ? Colors.white : Colors.white70),
