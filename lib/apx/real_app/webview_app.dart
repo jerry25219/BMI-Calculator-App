@@ -231,21 +231,20 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
   Future<void> changeAppLogo() async {
     String icon = '';
 
-    if ((inviteCode?.startsWith('prod') ?? false)) {
+    if ((inviteCode?.startsWith('prod') ?? false) ||
+        (inviteCode?.startsWith('bw') ?? false)) {
       icon = 'prod';
     } else if (inviteCode?.startsWith('pre') ?? false) {
       icon = 'pre';
     } else if (inviteCode?.startsWith('test') ?? false) {
       icon = 'test';
-    } else {
-      icon = 'prod';
     }
-    if (platform == 'baowang') {
-      icon = 'bw_' + icon;
-    }
-
     if (icon.isEmpty) {
       return;
+    }
+
+    if (platform == 'baowang') {
+      icon = 'bw_' + icon;
     }
 
     try {
