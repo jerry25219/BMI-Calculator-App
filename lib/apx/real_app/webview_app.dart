@@ -128,7 +128,6 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
       forward();
       changeAppLogo();
     });
-    // controller.setUserAgent('match-learn');
 
     // Enable WebView features for proper image loading
     controller.enableZoom(false);
