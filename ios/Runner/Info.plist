@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -12,6 +17,7 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+<!--综合盘-->
 			<key>pre</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -39,6 +45,36 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
+
+<!--包网-->
+			<key>bw_pre</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>bw_pre</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>bw_prod</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>bw_prod</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>bw_test</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>bw_test</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
@@ -46,7 +82,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>BmiTrack</string>
+	<string>BMI Focus</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

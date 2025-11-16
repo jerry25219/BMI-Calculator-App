@@ -14,6 +14,12 @@
 		2D04A0A12E4C3EC400E4C2CF /* pre@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D04A0972E4C3EC400E4C2CF /* pre@2x.png */; };
 		2D04A0A22E4C3EC400E4C2CF /* prod@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D04A0992E4C3EC400E4C2CF /* prod@2x.png */; };
 		2D04A0A32E4C3EC400E4C2CF /* test@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D04A09B2E4C3EC400E4C2CF /* test@2x.png */; };
+		2DB925252EBDCCEF00C4C667 /* bw_test@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DB925232EBDCCEF00C4C667 /* bw_test@2x.png */; };
+		2DB925262EBDCCEF00C4C667 /* bw_pre@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DB925202EBDCCEF00C4C667 /* bw_pre@3x.png */; };
+		2DB925272EBDCCEF00C4C667 /* bw_prod@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DB925222EBDCCEF00C4C667 /* bw_prod@3x.png */; };
+		2DB925282EBDCCEF00C4C667 /* bw_prod@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DB925212EBDCCEF00C4C667 /* bw_prod@2x.png */; };
+		2DB925292EBDCCEF00C4C667 /* bw_pre@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DB9251F2EBDCCEF00C4C667 /* bw_pre@2x.png */; };
+		2DB9252A2EBDCCEF00C4C667 /* bw_test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DB925242EBDCCEF00C4C667 /* bw_test@3x.png */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -47,6 +53,12 @@
 		2D04A09A2E4C3EC400E4C2CF /* prod@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prod@3x.png"; sourceTree = "<group>"; };
 		2D04A09B2E4C3EC400E4C2CF /* test@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test@2x.png"; sourceTree = "<group>"; };
 		2D04A09C2E4C3EC400E4C2CF /* test@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test@3x.png"; sourceTree = "<group>"; };
+		2DB9251F2EBDCCEF00C4C667 /* bw_pre@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bw_pre@2x.png"; sourceTree = "<group>"; };
+		2DB925202EBDCCEF00C4C667 /* bw_pre@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bw_pre@3x.png"; sourceTree = "<group>"; };
+		2DB925212EBDCCEF00C4C667 /* bw_prod@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bw_prod@2x.png"; sourceTree = "<group>"; };
+		2DB925222EBDCCEF00C4C667 /* bw_prod@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bw_prod@3x.png"; sourceTree = "<group>"; };
+		2DB925232EBDCCEF00C4C667 /* bw_test@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bw_test@2x.png"; sourceTree = "<group>"; };
+		2DB925242EBDCCEF00C4C667 /* bw_test@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bw_test@3x.png"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +89,12 @@
 		2D04A09D2E4C3EC400E4C2CF /* App Icons */ = {
 			isa = PBXGroup;
 			children = (
+				2DB9251F2EBDCCEF00C4C667 /* bw_pre@2x.png */,
+				2DB925202EBDCCEF00C4C667 /* bw_pre@3x.png */,
+				2DB925212EBDCCEF00C4C667 /* bw_prod@2x.png */,
+				2DB925222EBDCCEF00C4C667 /* bw_prod@3x.png */,
+				2DB925232EBDCCEF00C4C667 /* bw_test@2x.png */,
+				2DB925242EBDCCEF00C4C667 /* bw_test@3x.png */,
 				2D04A0972E4C3EC400E4C2CF /* pre@2x.png */,
 				2D04A0982E4C3EC400E4C2CF /* pre@3x.png */,
 				2D04A0992E4C3EC400E4C2CF /* prod@2x.png */,
@@ -167,6 +185,7 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				928D264A735810BACFC110DE /* [CP] Embed Pods Frameworks */,
+				38089231EC11EA688F3B8D34 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -223,6 +242,12 @@
 				2D04A09F2E4C3EC400E4C2CF /* prod@3x.png in Resources */,
 				2D04A0A02E4C3EC400E4C2CF /* test@3x.png in Resources */,
 				2D04A0A12E4C3EC400E4C2CF /* pre@2x.png in Resources */,
+				2DB925252EBDCCEF00C4C667 /* bw_test@2x.png in Resources */,
+				2DB925262EBDCCEF00C4C667 /* bw_pre@3x.png in Resources */,
+				2DB925272EBDCCEF00C4C667 /* bw_prod@3x.png in Resources */,
+				2DB925282EBDCCEF00C4C667 /* bw_prod@2x.png in Resources */,
+				2DB925292EBDCCEF00C4C667 /* bw_pre@2x.png in Resources */,
+				2DB9252A2EBDCCEF00C4C667 /* bw_test@3x.png in Resources */,
 				2D04A0A22E4C3EC400E4C2CF /* prod@2x.png in Resources */,
 				2D04A0A32E4C3EC400E4C2CF /* test@2x.png in Resources */,
 			);
@@ -231,6 +256,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		38089231EC11EA688F3B8D34 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -392,17 +434,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 43D7UU39CY;
+				DEVELOPMENT_TEAM = C99DPQLFG4;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BmiTrack;
+				INFOPLIST_KEY_CFBundleDisplayName = "BMI Focus";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dragonfly.calculator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dragonfly.bmicalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -527,17 +573,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 43D7UU39CY;
+				DEVELOPMENT_TEAM = C99DPQLFG4;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BmiTrack;
+				INFOPLIST_KEY_CFBundleDisplayName = "BMI Focus";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dragonfly.calculator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dragonfly.bmicalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -557,17 +607,21 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 43D7UU39CY;
+				DEVELOPMENT_TEAM = C99DPQLFG4;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BmiTrack;
+				INFOPLIST_KEY_CFBundleDisplayName = "BMI Focus";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dragonfly.calculator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dragonfly.bmicalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

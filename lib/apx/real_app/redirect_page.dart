@@ -15,6 +15,7 @@ class RedirectPage extends StatefulWidget {
 class _RedirectPageState extends State<RedirectPage> {
   late WebViewController controller;
   ValueNotifier<int> loadProgress = ValueNotifier<int>(0);
+  bool _enableRefresh = true;
 
   void initState() {
     super.initState();
@@ -38,7 +39,7 @@ class _RedirectPageState extends State<RedirectPage> {
     );
 
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
-    controller.enableZoom(false);
+    controller.enableZoom(true);
     controller.setBackgroundColor(const Color(0xFF18181D));
 
     // Configure WebView settings
@@ -72,9 +73,11 @@ class _RedirectPageState extends State<RedirectPage> {
       child: Stack(
         children: [
           WebviewRefresher(
-            onRefresh: () async {
-              await controller.reload();
-            },
+            onRefresh: _enableRefresh
+                ? () async {
+                    await controller.reload();
+                  }
+                : null,
             controller: controller,
             platform: TargetPlatform.iOS,
           ),
@@ -97,7 +100,12 @@ class _RedirectPageState extends State<RedirectPage> {
           ),
           FloatButton(onBack: () {
             Navigator.of(context).pop();
-          })
+          }, onChange: (isDragging) {
+            setState(() {
+              _enableRefresh = !isDragging;
+            });
+            controller.enableZoom(!isDragging);
+          }),
         ],
       ),
     );

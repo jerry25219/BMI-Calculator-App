@@ -13,8 +13,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:image_picker/image_picker.dart' as image_picker;
 
 import '../../main.dart';
 import '../blocs/application/application_bloc.dart';
@@ -104,6 +107,10 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
     controller = WebViewController.fromPlatformCreationParams(
       params,
     );
+    if (Platform.isAndroid) {
+      final androidController = controller.platform as AndroidWebViewController;
+      androidController.setOnShowFileSelector(_androidFilePicker);
+    }
 
     WidgetsBinding.instance.addObserver(this);
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
@@ -121,7 +128,6 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
       forward();
       changeAppLogo();
     });
-    // controller.setUserAgent('match-learn');
 
     // Enable WebView features for proper image loading
     controller.enableZoom(false);
@@ -192,14 +198,18 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
             return RedirectPage(uri: uri);
           }));
           isRedirecting = false;
-        }
-        if (type == 'popup') {
+        } else if (type == 'popup') {
           bool disableRefresh = data as bool;
           if (_enableRefresh != !disableRefresh) {
             setState(() {
               _enableRefresh = !disableRefresh;
             });
           }
+        } else if (type == 'system') {
+          String uri = data as String;
+
+          /// 跳转系统浏览器
+          launchUrl(Uri.parse(uri), mode: LaunchMode.externalApplication);
         }
       },
     );
@@ -223,20 +233,48 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
     });
   }
 
+  /// Android file chooser callback for <input type="file"> in WebView
+  /// Returns a list of selected file URIs
+  Future<List<String>> _androidFilePicker(FileSelectorParams params) async {
+    try {
+      final picker = image_picker.ImagePicker();
+      if (params.mode == FileSelectorMode.openMultiple) {
+        final List<image_picker.XFile> files = await picker.pickMultiImage();
+        if (files.isEmpty) return <String>[];
+        return files.map((f) => Uri.file(f.path).toString()).toList();
+      } else {
+        final image_picker.XFile? file = await picker.pickImage(
+          source: image_picker.ImageSource.gallery,
+        );
+        if (file == null) return <String>[];
+        final String path = file.path;
+        return <String>[Uri.file(path).toString()];
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('[WebView] image_picker error: $e');
+      }
+      return <String>[];
+    }
+  }
+
   Future<void> changeAppLogo() async {
     String icon = '';
-    if (inviteCode?.startsWith('prod') ?? false) {
+
+    if ((inviteCode?.startsWith('prod') ?? false) ||
+        (inviteCode?.startsWith('bw') ?? false)) {
       icon = 'prod';
     } else if (inviteCode?.startsWith('pre') ?? false) {
       icon = 'pre';
     } else if (inviteCode?.startsWith('test') ?? false) {
       icon = 'test';
-    } else {
-      icon = '';
     }
-
     if (icon.isEmpty) {
       return;
+    }
+
+    if (platform == 'baowang') {
+      icon = 'bw_' + icon;
     }
 
     try {

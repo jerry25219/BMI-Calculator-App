@@ -7,6 +7,7 @@ import '../Components/Reusable_Bg.dart';
 import '../calculator_brain.dart';
 import 'BMIHistoryPage.dart';
 import 'feedback_page.dart';
+import 'health_info_sources.dart';
 
 class ResultPage extends StatefulWidget {
   final String resultText;
@@ -35,18 +36,18 @@ class _ResultPageState extends State<ResultPage> {
   @override
   void initState() {
     super.initState();
-    // 自动保存BMI结果
+    // Automatically save BMI result
     _saveResult();
   }
 
   Future<void> _saveResult() async {
-    // 将数据保存到本地
+    // Save data locally
     String genderStr = widget.gender == Gender.male ? 'male' : 'female';
 
-    // 解析BMI值
+    // Parse BMI value
     double bmiValue = double.parse(widget.bmi);
 
-    // 创建BMI记录
+    // Create BMI record
     BMIRecord record = BMIRecord(
       height: widget.height,
       weight: widget.weight,
@@ -55,7 +56,7 @@ class _ResultPageState extends State<ResultPage> {
       time: DateTime.now(),
     );
 
-    // 保存记录
+    // Save record
     await BMIHistoryManager.saveBMIRecord(record);
   }
 
@@ -115,13 +116,54 @@ class _ResultPageState extends State<ResultPage> {
                     style: klabelTextStyle,
                   ),
                   Text(
-                    '18.5 - 25 kg/m2',
+                    '18.5 - 24.9 kg/m²',
                     style: kBodyTextStyle,
                   ),
                   Text(
                     widget.advise,
                     textAlign: TextAlign.center,
                     style: kBodyTextStyle,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Important note: This app provides general health information only and does not constitute medical advice. BMI is not suitable for children, pregnant women, or professional athletes. Please consult a doctor for personalized advice.',
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(fontSize: 12.0, color: Colors.white70),
+                        ),
+                        SizedBox(height: 8.0),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, HealthInfoSourcesPage.id);
+                          },
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Information sources: ',
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.white70),
+                                ),
+                                TextSpan(
+                                  text: 'WHO & CDC (click to view)',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Color(0xFFEB1555),
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 15.0,

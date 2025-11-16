@@ -11,6 +11,7 @@ import 'BMIHistoryPage.dart';
 import '../Components/BottomContainer_Button.dart';
 import '../calculator_brain.dart';
 import 'feedback_page.dart';
+import 'health_info_sources.dart';
 
 // ignore: must_be_immutable
 class InputPage extends StatefulWidget {
@@ -59,6 +60,9 @@ class _InputPageState extends State<InputPage> {
                 case 'privacy':
                   Navigator.pushNamed(context, PrivacyPolicyWebView.id);
                   break;
+                case 'sources':
+                  Navigator.pushNamed(context, HealthInfoSourcesPage.id);
+                  break;
               }
             },
             itemBuilder: (BuildContext context) => [
@@ -88,7 +92,17 @@ class _InputPageState extends State<InputPage> {
                   children: [
                     Icon(Icons.privacy_tip, color: Colors.white),
                     SizedBox(width: 8),
-                    Text('Privacy'),
+                    Text('Privacy Policy'),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'sources',
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('Health Sources'),
                   ],
                 ),
               ),

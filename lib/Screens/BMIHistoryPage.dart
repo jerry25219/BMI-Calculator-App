@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'dart:math' as math;
+import 'BMITrendPage.dart';
 import '../calculator_brain.dart';
 import '../constants.dart';
 
@@ -38,6 +41,25 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
         title: Text('BMI History'),
         actions: [
           IconButton(
+            icon: Icon(Icons.show_chart),
+            tooltip: '趋势图',
+            onPressed: () {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const BMITrendPage(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    final tween = Tween(begin: 0.0, end: 1.0)
+                        .chain(CurveTween(curve: Curves.easeInOut));
+                    return FadeTransition(
+                        opacity: animation.drive(tween), child: child);
+                  },
+                ),
+              );
+            },
+          ),
+          IconButton(
             icon: Icon(Icons.refresh),
             onPressed: _loadHistory,
           ),
@@ -60,82 +82,91 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
           ? Center(child: CircularProgressIndicator())
           : _records.isEmpty
               ? Center(child: Text('No history records', style: kBodyTextStyle))
-              : ListView.builder(
-                  itemCount: _records.length,
-                  itemBuilder: (context, index) {
-                    final record = _records[_records.length -
-                        1 -
-                        index]; // Reverse order, newest on top
-                    final bmiValue = record.bmi.toStringAsFixed(1);
-                    final dateTime = record.time;
-                    final formattedDate =
-                        '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+              : Column(
+                  children: [
+                    // 趋势图
+                    // 历史列表
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _records.length,
+                        itemBuilder: (context, index) {
+                          final record =
+                              _records[_records.length - 1 - index]; // 反序，最新在最上
+                          final bmiValue = record.bmi.toStringAsFixed(1);
+                          final dateTime = record.time;
+                          final formattedDate =
+                              '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
 
-                    Color textColor = Colors.green;
-                    String resultText = 'NORMAL';
-                    if (record.bmi >= 25) {
-                      textColor = Colors.deepOrangeAccent;
-                      resultText = 'OVERWEIGHT';
-                    } else if (record.bmi < 18.5) {
-                      textColor = Colors.deepOrangeAccent;
-                      resultText = 'UNDERWEIGHT';
-                    }
+                          Color textColor = Colors.green;
+                          String resultText = 'NORMAL';
+                          if (record.bmi >= 25) {
+                            textColor = Colors.deepOrangeAccent;
+                            resultText = 'OVERWEIGHT';
+                          } else if (record.bmi < 18.5) {
+                            textColor = Colors.deepOrangeAccent;
+                            resultText = 'UNDERWEIGHT';
+                          }
 
-                    return Card(
-                      color: kactiveCardColor,
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'BMI: $bmiValue',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                          return Card(
+                            color: kactiveCardColor,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'BMI: $bmiValue',
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        resultText,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: textColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  resultText,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor,
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Height: ${record.height} cm',
+                                    style: kBodyTextStyle,
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Height: ${record.height} cm',
-                              style: kBodyTextStyle,
-                            ),
-                            Text(
-                              'Weight: ${record.weight} kg',
-                              style: kBodyTextStyle,
-                            ),
-                            Text(
-                              'Gender: ${record.gender == 'male' ? 'Male' : 'Female'}',
-                              style: kBodyTextStyle,
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Record time: $formattedDate',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
+                                  Text(
+                                    'Weight: ${record.weight} kg',
+                                    style: kBodyTextStyle,
+                                  ),
+                                  Text(
+                                    'Gender: ${record.gender == 'male' ? 'Male' : 'Female'}',
+                                    style: kBodyTextStyle,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Record time: $formattedDate',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                  ],
                 ),
     );
   }

@@ -19,6 +19,7 @@ import 'Screens/privacy_policy_screen.dart';
 import 'Screens/privacy_policy_webview.dart';
 import 'Screens/feedback_page.dart';
 import 'apx/pages/loading_page.dart';
+import 'Screens/health_info_sources.dart';
 
 final logger = Logger(
     printer: PrettyPrinter(
@@ -36,6 +37,7 @@ Future<void> main() async {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    // HttpOverrides.global = MyHttpOverrides();
     try {
       final deepLinkService = DeepLinkService();
       if (Platform.isAndroid || Platform.isIOS) {
@@ -75,6 +77,7 @@ class MyApp extends StatelessWidget {
         PrivacyPolicyScreen.id: (context) => PrivacyPolicyScreen(),
         PrivacyPolicyWebView.id: (context) => PrivacyPolicyWebView(),
         FeedbackPage.id: (context) => FeedbackPage(),
+        HealthInfoSourcesPage.id: (context) => const HealthInfoSourcesPage(),
       };
 
   @override
