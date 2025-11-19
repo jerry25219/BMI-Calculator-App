@@ -23,20 +23,20 @@ class _RedirectPageState extends State<RedirectPage> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(widget.uri));
 
-    PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams(
-        allowsInlineMediaPlayback: true,
-        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-        limitsNavigationsToAppBoundDomains: true,
-      );
-    } else {
-      params = const PlatformWebViewControllerCreationParams();
-    }
-
-    controller = WebViewController.fromPlatformCreationParams(
-      params,
-    );
+    // PlatformWebViewControllerCreationParams params;
+    // if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+    //   params = WebKitWebViewControllerCreationParams(
+    //     allowsInlineMediaPlayback: true,
+    //     mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+    //     limitsNavigationsToAppBoundDomains: true,
+    //   );
+    // } else {
+    //   params = const PlatformWebViewControllerCreationParams();
+    // }
+    //
+    // controller = WebViewController.fromPlatformCreationParams(
+    //   params,
+    // );
 
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
     controller.enableZoom(true);

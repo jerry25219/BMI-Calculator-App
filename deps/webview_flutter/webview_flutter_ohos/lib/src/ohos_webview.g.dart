@@ -2789,7 +2789,12 @@ abstract class FileChooserParamsFlutterApi {
               args[3] == null ? null : FileChooserMode.values[args[3]! as int];
           assert(arg_mode != null,
               'Argument for dev.flutter.pigeon.webview_flutter_ohos.FileChooserParamsFlutterApi.create was null, expected non-null FileChooserModeEnumData.');
-          final String? arg_filenameHint = (args[4] as String?);
+          String? arg_filenameHint;
+          try {
+            arg_filenameHint = (args[4] as String?);
+          } on Exception catch (e) {
+            // TODO
+          }
           api.create(arg_instanceId!, arg_isCaptureEnabled!, arg_acceptTypes!,
               arg_mode!, arg_filenameHint);
           return;

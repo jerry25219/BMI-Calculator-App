@@ -120,9 +120,13 @@ class WebView extends StatefulWidget {
   static WebViewPlatform get platform {
     if (_platform == null) {
       switch (defaultTargetPlatform) {
+        case TargetPlatform.android:
+          _platform = SurfaceAndroidWebView();
+        case TargetPlatform.iOS:
+          _platform = CupertinoWebView();
+        // ignore: no_default_cases
         case TargetPlatform.ohos:
           _platform = SurfaceOhosWebView();
-          break;
         default:
           throw UnsupportedError(
               "Trying to use the default webview implementation for $defaultTargetPlatform but there isn't a default one");

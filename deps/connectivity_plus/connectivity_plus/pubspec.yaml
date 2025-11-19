@@ -1,0 +1,64 @@
+# Copyright (c) 2023 Hunan OpenValley Digital Industry Development Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: connectivity_plus
+description: Flutter plugin for discovering the state of the network (WiFi & mobile/cellular) connectivity on Android and iOS.
+version: 5.0.1
+homepage: https://plus.fluttercommunity.dev/
+repository: https://gitcode.com/openharmony-sig/flutter_plus_plugins/tree/master/packages/connectivity_plus/connectivity_plus
+issue_tracker: https://gitcode.com/openharmony-sig/flutter_plus_plugins/issues
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+  flutter: ">=3.3.0"
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: dev.fluttercommunity.plus.connectivity
+        pluginClass: ConnectivityPlugin
+      ios:
+        pluginClass: ConnectivityPlusPlugin
+      linux:
+        dartPluginClass: ConnectivityPlusLinuxPlugin
+      macos:
+        pluginClass: ConnectivityPlugin
+      web:
+        pluginClass: ConnectivityPlusWebPlugin
+        fileName: src/connectivity_plus_web.dart
+      windows:
+        pluginClass: ConnectivityPlusWindowsPlugin
+      ohos:
+        package: dev.fluttercommunity.plus.connectivity
+        pluginClass: ConnectivityPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  connectivity_plus_platform_interface:
+    path: ../connectivity_plus_platform_interface
+  js: ^0.6.4
+  meta: ^1.8.0
+  nm: ^0.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.3.3
+  dbus: ^0.7.8
+  flutter_lints: ^2.0.2
+  mockito: ^5.4.0
+  plugin_platform_interface: ^2.1.5
+  test: ^1.22.0

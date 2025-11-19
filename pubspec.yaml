@@ -14,24 +14,16 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   oktoast: ^3.4.0
   shared_preferences: ^2.3.3
-  url_launcher: ^6.2.5
+  url_launcher:
+    path: deps/url_launcher/url_launcher
   logger: ^2.6.0
   encrypt:
   flutter_bloc:
   app_links: ^6.4.0
-  freezed_annotation:
   rxdart:
-  webview_flutter: ^4.13.0
-  webview_flutter_wkwebview: ^3.22.2
   permission_handler: ^11.3.1
-  webview_flutter_android: 4.8.2
   file_picker: ^8.1.2
   image_picker: ^1.0.7
-  connectivity_plus:
-  package_info_plus:
-  device_info_plus:
-  flutter_dynamic_icon_plus:
-    path: deps/flutter_dynamic_icon_plus-1.3.1
   fl_chart: ^0.66.2
 
 dev_dependencies:

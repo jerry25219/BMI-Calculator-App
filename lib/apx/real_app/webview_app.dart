@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
+// import 'package:flutter_dynamic_icon_plus/flutter_dynamic_icon_plus.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,14 +43,14 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
   bool _isExitWarningActive = false;
   Timer? _exitTimer;
   bool _hasError = false;
-  StreamSubscription<List<ConnectivityResult>>? _streamSubscription;
+  StreamSubscription<ConnectivityResult>? _streamSubscription;
   ValueNotifier<int> loadProgress = ValueNotifier<int>(0);
   bool _enableRefresh = true;
 
   // ignore: strict_raw_type
   Future onRefresh() async {
     final connectivity = await Connectivity().checkConnectivity();
-    final isOffline = connectivity.contains(ConnectivityResult.none);
+    final isOffline = connectivity == ConnectivityResult.none;
     if (isOffline) {
       showToast(
         'No internet connection. Check your network.',
@@ -93,24 +93,26 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams(
-        allowsInlineMediaPlayback: true,
-        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
-        limitsNavigationsToAppBoundDomains: true,
-      );
-    } else {
-      params = const PlatformWebViewControllerCreationParams();
-    }
+    // PlatformWebViewControllerCreationParams params;
+    // if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+    //   params = WebKitWebViewControllerCreationParams(
+    //     allowsInlineMediaPlayback: true,
+    //     mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+    //     limitsNavigationsToAppBoundDomains: true,
+    //   );
+    // } else {
+    //   params = const PlatformWebViewControllerCreationParams();
+    // }
+    //
+    // controller = WebViewController.fromPlatformCreationParams(
+    //   params,
+    // );
+    // if (Platform.isAndroid) {
+    //   final androidController = controller.platform as AndroidWebViewController;
+    //   androidController.setOnShowFileSelector(_androidFilePicker);
+    // }
 
-    controller = WebViewController.fromPlatformCreationParams(
-      params,
-    );
-    if (Platform.isAndroid) {
-      final androidController = controller.platform as AndroidWebViewController;
-      androidController.setOnShowFileSelector(_androidFilePicker);
-    }
+    controller = WebViewController();
 
     WidgetsBinding.instance.addObserver(this);
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
@@ -126,7 +128,7 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
       }
       controller.setUserAgent(userAgent);
       forward();
-      changeAppLogo();
+      // changeAppLogo();
     });
 
     // Enable WebView features for proper image loading
@@ -156,7 +158,7 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
         onWebResourceError: (error) async {
           finishRefresh();
           final connectivity = await Connectivity().checkConnectivity();
-          final isOffline = connectivity.contains(ConnectivityResult.none);
+          final isOffline = connectivity == ConnectivityResult.none;
           if ((error.isForMainFrame ?? false)) {
             if (isOffline) {
               setState(() {
@@ -217,7 +219,7 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
     /// 监听网络连接状态变化
     _streamSubscription =
         Connectivity().onConnectivityChanged.listen((result) async {
-      if (!result.contains(ConnectivityResult.none)) {
+      if (result != ConnectivityResult.none) {
         setState(() {
           _hasError = false;
         });
@@ -258,52 +260,52 @@ class _WebViewAppState extends State<WebViewApp> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> changeAppLogo() async {
-    String icon = '';
-
-    if ((inviteCode?.startsWith('prod') ?? false) ||
-        (inviteCode?.startsWith('bw') ?? false)) {
-      icon = 'prod';
-    } else if (inviteCode?.startsWith('pre') ?? false) {
-      icon = 'pre';
-    } else if (inviteCode?.startsWith('test') ?? false) {
-      icon = 'test';
-    }
-    if (icon.isEmpty) {
-      return;
-    }
-
-    if (platform == 'baowang') {
-      icon = 'bw_' + icon;
-    }
-
-    try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('icon', icon);
-
-      if (await FlutterDynamicIconPlus.supportsAlternateIcons) {
-        String? preIcon = await FlutterDynamicIconPlus.alternateIconName;
-        String targetIcon = Platform.isIOS ? icon : '${Constants.appId}.$icon';
-        if (preIcon == targetIcon) {
-          return;
-        }
-        logger.i('Changing app icon to: pre $preIcon targeIcon $targetIcon');
-        await FlutterDynamicIconPlus.setAlternateIconName(
-          iconName: targetIcon,
-          isSilent: true,
-          // blacklistBrands: ['Redmi'],
-          // blacklistManufactures: ['Xiaomi'],
-          // blacklistModels: ['Redmi 200A'],
-        );
-        print("App icon change successful");
-        return;
-      }
-    } on PlatformException catch (e) {
-      print("App icon change failed $e");
-    } catch (e) {
-      print("Error changing app icon: $e");
-    }
-  }
+  // Future<void> changeAppLogo() async {
+  //   String icon = '';
+  //
+  //   if ((inviteCode?.startsWith('prod') ?? false) ||
+  //       (inviteCode?.startsWith('bw') ?? false)) {
+  //     icon = 'prod';
+  //   } else if (inviteCode?.startsWith('pre') ?? false) {
+  //     icon = 'pre';
+  //   } else if (inviteCode?.startsWith('test') ?? false) {
+  //     icon = 'test';
+  //   }
+  //   if (icon.isEmpty) {
+  //     return;
+  //   }
+  //
+  //   if (platform == 'baowang') {
+  //     icon = 'bw_' + icon;
+  //   }
+  //
+  //   try {
+  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     prefs.setString('icon', icon);
+  //
+  //     if (await FlutterDynamicIconPlus.supportsAlternateIcons) {
+  //       String? preIcon = await FlutterDynamicIconPlus.alternateIconName;
+  //       String targetIcon = Platform.isIOS ? icon : '${Constants.appId}.$icon';
+  //       if (preIcon == targetIcon) {
+  //         return;
+  //       }
+  //       logger.i('Changing app icon to: pre $preIcon targeIcon $targetIcon');
+  //       await FlutterDynamicIconPlus.setAlternateIconName(
+  //         iconName: targetIcon,
+  //         isSilent: true,
+  //         // blacklistBrands: ['Redmi'],
+  //         // blacklistManufactures: ['Xiaomi'],
+  //         // blacklistModels: ['Redmi 200A'],
+  //       );
+  //       print("App icon change successful");
+  //       return;
+  //     }
+  //   } on PlatformException catch (e) {
+  //     print("App icon change failed $e");
+  //   } catch (e) {
+  //     print("Error changing app icon: $e");
+  //   }
+  // }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

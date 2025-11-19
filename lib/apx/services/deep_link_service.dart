@@ -89,6 +89,7 @@ class DeepLinkService {
 
   String cleanUri(String uri) {
     // 去除不可见控制字符和空白字符
+    // return Uri.parse(uri).toString();
     return uri.replaceAll(RegExp(r'^[^\w]+'), '');
   }
 
@@ -148,7 +149,7 @@ class DeepLinkService {
 
   /// Handles incoming deep links and processes them
   Future<void> _handleDeepLink(Uri uri) async {
-    if (uri.scheme != 'dfbmi' && uri.scheme != 'https') {
+    if (!uri.scheme.contains('dfbmi') && uri.scheme != 'https') {
       return;
     }
 
@@ -158,6 +159,7 @@ class DeepLinkService {
       host = uri.queryParameters['host'];
       mode = uri.queryParameters['mode'];
       deepLinkQueryParams = uri.queryParameters;
+      eventBus.fire(uri.toString());
       _logger.i('Deep link data: ${uri.toString()}');
     } catch (e, stackTrace) {
       _logger.i('Deep link processing error: $e\n$stackTrace');

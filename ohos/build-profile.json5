@@ -1,13 +1,26 @@
-
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/wangbo/.ohos/config/default_ohos_r4PNcCs2o95EDIdAgxpIP2_7t7mdFOpVGYKkC48WX58=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001A6C2AFFFD47D46A0789B9418A5A3F84AD4589E079C9E001013E5BB18064013548B846BF23D646",
+          "profile": "/Users/wangbo/.ohos/config/default_ohos_r4PNcCs2o95EDIdAgxpIP2_7t7mdFOpVGYKkC48WX58=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/wangbo/.ohos/config/default_ohos_r4PNcCs2o95EDIdAgxpIP2_7t7mdFOpVGYKkC48WX58=.p12",
+          "storePassword": "0000001A5A09516EA34352724F800451EFB99B204BF5FB650B32A34B073A2508C27AEFCA617BC53ABB1F"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
         "signingConfig": "default",
         "compatibleSdkVersion": "5.0.0(12)",
-        "runtimeOS": "HarmonyOS",
+        "runtimeOS": "HarmonyOS"
       }
     ]
   },

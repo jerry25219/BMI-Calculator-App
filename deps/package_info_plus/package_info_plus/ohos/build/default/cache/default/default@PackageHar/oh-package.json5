@@ -1,1 +1,0 @@
-{"name":"package_info_plus","version":"1.0.0","description":"Please describe the basic information.","main":"index.ets","author":"","license":"Apache-2.0","dependencies":{"@ohos/flutter_ohos":"file:libs/flutter.har"},"metadata":{"sourceRoots":["./src/main"],"debug":true},"compatibleSdkVersion":12,"compatibleSdkType":"HarmonyOS","obfuscated":false}

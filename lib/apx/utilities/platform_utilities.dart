@@ -49,7 +49,9 @@ class PlatformUtilities {
       return 'Linux';
     } else if(Platform.isFuchsia) {
       return 'Fuchsia';
-    }
+    }  else if (Platform.isOhos) {
+      return 'harmony';
+     }
     return 'Unknown';
   }
 
@@ -60,6 +62,8 @@ class PlatformUtilities {
         return 'Android ${deviceInfo.version.release}';
       } else if (deviceInfo is IosDeviceInfo) {
         return 'iOS ${deviceInfo.systemVersion}';
+      } else if (deviceInfo is OhosDeviceInfo) {
+        return 'harmony ${deviceInfo.distributionOSVersion}';
       }
       return 'Unknown OS';
     } catch (e) {

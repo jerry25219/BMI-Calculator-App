@@ -98,7 +98,6 @@ class _LoadingPageState extends State<LoadingPage> {
             height: 50,
             child: CircularProgressIndicator(
               color: Colors.amber,
-              constraints: BoxConstraints(maxWidth: 50, maxHeight: 50),
             ),
           ),
         ),
