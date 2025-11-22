@@ -43,6 +43,28 @@ class _InputPageState extends State<InputPage> {
   String? _reminderMessage;
   bool _showReminder = false;
 
+  // 统一计算入口：用于右上角按钮触发导航
+  void _performCalculateAndNavigate() {
+    final String gender = selectedGender == Gender.male ? 'male' : 'female';
+    final Calculate calc =
+        Calculate(height: height, weight: weight, gender: gender);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultPage(
+          bmi: calc.result(),
+          resultText: calc.getText(),
+          advise: calc.getAdvise(),
+          textColor: calc.getTextColor(),
+          gender: selectedGender,
+          height: height,
+          weight: weight,
+          activity: activity,
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -73,129 +95,15 @@ class _InputPageState extends State<InputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text('BMI CALCULATOR'),
-        ),
+        title: const Text('BMI CALCULATOR'),
+        centerTitle: true,
         actions: [
-          PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert),
-            onSelected: (String value) {
-              switch (value) {
-                case 'history':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BMIHistoryPage(),
-                    ),
-                  );
-                  break;
-                case 'goals':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const GoalsPage(),
-                    ),
-                  );
-                  break;
-                case 'nutrition':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NutritionToolsPage(),
-                    ),
-                  );
-                  break;
-                case 'body':
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BodyEstimatorPage(),
-                    ),
-                  );
-                  break;
-                case 'feedback':
-                  Navigator.pushNamed(context, FeedbackPage.id);
-                  break;
-                case 'privacy':
-                  Navigator.pushNamed(context, PrivacyPolicyWebView.id);
-                  break;
-                case 'sources':
-                  Navigator.pushNamed(context, HealthInfoSourcesPage.id);
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem<String>(
-                value: 'history',
-                child: Row(
-                  children: [
-                    Icon(Icons.history, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('History'),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'nutrition',
-                child: Row(
-                  children: [
-                    Icon(Icons.local_fire_department, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('能量与营养计算'),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'body',
-                child: Row(
-                  children: [
-                    Icon(Icons.monitor_weight, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('体脂率/腰臀比'),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'goals',
-                child: Row(
-                  children: [
-                    Icon(Icons.flag, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('Goals & Reminders'),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'feedback',
-                child: Row(
-                  children: [
-                    Icon(Icons.feedback, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('Feedback'),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'privacy',
-                child: Row(
-                  children: [
-                    Icon(Icons.privacy_tip, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('Privacy Policy'),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'sources',
-                child: Row(
-                  children: [
-                    Icon(Icons.info_outline, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('Health Sources'),
-                  ],
-                ),
-              ),
-            ],
+          // 仅保留右上角“计算”按钮
+          TextButton.icon(
+            onPressed: _performCalculateAndNavigate,
+            icon: const Icon(Icons.calculate, color: Colors.white),
+            label:
+                const Text('CALCULATE', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -432,30 +340,7 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          BottomContainer(
-            text: 'CALCULATE',
-            onTap: () {
-              String gender = selectedGender == Gender.male ? 'male' : 'female';
-              Calculate calc =
-                  Calculate(height: height, weight: weight, gender: gender);
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ResultPage(
-                    bmi: calc.result(),
-                    resultText: calc.getText(),
-                    advise: calc.getAdvise(),
-                    textColor: calc.getTextColor(),
-                    gender: selectedGender,
-                    height: height,
-                    weight: weight,
-                    activity: activity,
-                  ),
-                ),
-              );
-            },
-          ),
+          // 移除底部“CALCULATE”按钮，统一到右上角
         ],
       ),
 

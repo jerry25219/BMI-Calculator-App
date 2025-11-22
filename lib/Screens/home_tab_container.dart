@@ -269,7 +269,6 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
           isScrollable: false,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          indicatorWeight: 3,
           dividerColor: Colors.transparent,
           tabs: _activeGroups.map((g) => _buildTab(g)).toList(),
         ),
