@@ -42,35 +42,6 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
         title: Text('BMI History'),
         actions: [
           IconButton(
-            icon: Icon(Icons.upload_file),
-            tooltip: '导出CSV',
-            onPressed: _exportCsv,
-          ),
-          IconButton(
-            icon: Icon(Icons.download),
-            tooltip: '导入CSV',
-            onPressed: _importCsv,
-          ),
-          IconButton(
-            icon: Icon(Icons.show_chart),
-            tooltip: '趋势图',
-            onPressed: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const BMITrendPage(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    final tween = Tween(begin: 0.0, end: 1.0)
-                        .chain(CurveTween(curve: Curves.easeInOut));
-                    return FadeTransition(
-                        opacity: animation.drive(tween), child: child);
-                  },
-                ),
-              );
-            },
-          ),
-          IconButton(
             icon: Icon(Icons.refresh),
             onPressed: _loadHistory,
           ),
