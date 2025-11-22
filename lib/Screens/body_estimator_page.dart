@@ -39,7 +39,7 @@ class _BodyEstimatorPageState extends State<BodyEstimatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('体脂率与腰臀比估算')),
+      appBar: AppBar(title: const Text('Body Fat & WHR Estimator')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -52,7 +52,7 @@ class _BodyEstimatorPageState extends State<BodyEstimatorPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('输入（单位：cm）', style: TextStyle(color: Colors.white, fontSize: 16)),
+                    const Text('Input (cm)', style: TextStyle(color: Colors.white, fontSize: 16)),
                     const SizedBox(height: 8),
                     Row(children: [
                       ChoiceChip(label: const Text('Male'), selected: gender == 'male', onSelected: (_) => setState(() => gender = 'male')),
@@ -65,7 +65,7 @@ class _BodyEstimatorPageState extends State<BodyEstimatorPage> {
                     _numberRow('Neck', neck, (v) => setState(() => neck = v)),
                     if (gender == 'female') _numberRow('Hip', hip, (v) => setState(() => hip = v)),
                     const SizedBox(height: 12),
-                    ElevatedButton(onPressed: _calculate, child: const Text('估算体脂率')),
+                    ElevatedButton(onPressed: _calculate, child: const Text('Estimate Body Fat')),
                   ],
                 ),
               ),
@@ -78,13 +78,13 @@ class _BodyEstimatorPageState extends State<BodyEstimatorPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('腰臀比（WHR）', style: TextStyle(color: Colors.white, fontSize: 16)),
+                    const Text('Waist-Hip Ratio (WHR)', style: TextStyle(color: Colors.white, fontSize: 16)),
                     const SizedBox(height: 8),
-                    Text('WHR = 腰围(waist) / 臀围(hip)', style: const TextStyle(color: Colors.white)),
+                    Text('WHR = waist / hip', style: const TextStyle(color: Colors.white)),
                     if (gender == 'female')
-                      Text('当前 WHR ≈ ${(waist / hip).toStringAsFixed(2)}', style: const TextStyle(color: Colors.white70))
+                      Text('Current WHR ≈ ${(waist / hip).toStringAsFixed(2)}', style: const TextStyle(color: Colors.white70))
                     else
-                      const Text('男性未输入臀围，WHR不计算', style: TextStyle(color: Colors.white70)),
+                      const Text('For male, hip is not entered; WHR not calculated', style: TextStyle(color: Colors.white70)),
                   ],
                 ),
               ),
@@ -98,11 +98,11 @@ class _BodyEstimatorPageState extends State<BodyEstimatorPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('体脂率估算（仅供参考）', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      const Text('Body fat estimate (for reference only)', style: TextStyle(color: Colors.white, fontSize: 16)),
                       const SizedBox(height: 8),
                       Text('BF% ≈ ${bf!.toStringAsFixed(1)}%', style: const TextStyle(color: Colors.white)),
                       const SizedBox(height: 8),
-                      const Text('声明：此公式仅供参考，存在误差，不用于诊断或医疗目的。', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                      const Text('Disclaimer: This formula is for reference only and may have errors; not for diagnosis or medical purposes.', style: TextStyle(color: Colors.white54, fontSize: 12)),
                     ],
                   ),
                 ),
@@ -124,4 +124,3 @@ class _BodyEstimatorPageState extends State<BodyEstimatorPage> {
     );
   }
 }
-

@@ -73,23 +73,23 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(children: [
-                            const Text('分组：',
+                            const Text('Group:',
                                 style: TextStyle(color: Colors.white70)),
                             ChoiceChip(
-                              label: const Text('按月'),
+                              label: const Text('Monthly'),
                               selected: _groupByMonth,
                               onSelected: (_) =>
                                   setState(() => _groupByMonth = true),
                             ),
                             const SizedBox(width: 8),
                             ChoiceChip(
-                              label: const Text('不分组'),
+                              label: const Text('No grouping'),
                               selected: !_groupByMonth,
                               onSelected: (_) =>
                                   setState(() => _groupByMonth = false),
                             ),
                           ]),
-                          Text('${_records.length} 条记录',
+                          Text('${_records.length} records',
                               style: const TextStyle(color: Colors.white70)),
                         ],
                       ),
@@ -199,13 +199,13 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit, color: Colors.white70),
-                    tooltip: '编辑',
+                    tooltip: 'Edit',
                     onPressed: () => _editRecord(index, record),
                   ),
                   IconButton(
                     icon:
                         const Icon(Icons.delete_forever, color: Colors.white70),
-                    tooltip: '删除',
+                    tooltip: 'Delete',
                     onPressed: () => _deleteRecord(index),
                   ),
                 ])
@@ -246,7 +246,8 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
       builder: (ctx) {
         return AlertDialog(
           backgroundColor: kactiveCardColor,
-          title: const Text('编辑记录', style: TextStyle(color: Colors.white)),
+          title:
+              const Text('Edit Record', style: TextStyle(color: Colors.white)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -267,7 +268,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('取消'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -290,7 +291,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
                   _loadHistory();
                 }
               },
-              child: const Text('保存'),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -301,7 +302,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
   Future<void> _exportCsv() async {
     if (_records.isEmpty) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('无可导出数据')));
+          .showSnackBar(const SnackBar(content: Text('No data to export')));
       return;
     }
     final buffer = StringBuffer('time,bmi,height,weight,gender,activity\n');
@@ -314,7 +315,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: kactiveCardColor,
-        title: const Text('导出CSV', style: TextStyle(color: Colors.white)),
+        title: const Text('Export CSV', style: TextStyle(color: Colors.white)),
         content: SingleChildScrollView(
           child: SelectableText(csvText,
               style: const TextStyle(color: Colors.white70)),
@@ -324,14 +325,14 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
             onPressed: () {
               Clipboard.setData(ClipboardData(text: csvText));
               Navigator.pop(ctx);
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('CSV已复制到剪贴板')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('CSV copied to clipboard')));
             },
-            child: const Text('复制到剪贴板'),
+            child: const Text('Copy to clipboard'),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
+            child: const Text('Close'),
           ),
         ],
       ),
@@ -344,18 +345,19 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: kactiveCardColor,
-        title: const Text('导入CSV', style: TextStyle(color: Colors.white)),
+        title: const Text('Import CSV', style: TextStyle(color: Colors.white)),
         content: TextField(
           controller: controller,
           maxLines: 10,
           decoration: const InputDecoration(
-              hintText: '粘贴CSV文本：time,bmi,height,weight,gender,activity'),
+              hintText:
+                  'Paste CSV text: time,bmi,height,weight,gender,activity'),
           style: const TextStyle(color: Colors.white),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
@@ -366,7 +368,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
               }
               final lines =
                   text.split('\n').where((l) => l.trim().isNotEmpty).toList();
-              // 跳过首行标题（若存在）
+              // Skip header line if present
               int startIdx = 0;
               if (lines.first.toLowerCase().startsWith('time,')) startIdx = 1;
               final imported = <BMIRecord>[];
@@ -397,15 +399,15 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
                 await BMIHistoryManager.setBMIHistory(merged);
                 Navigator.pop(ctx);
                 _loadHistory();
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('导入 ${imported.length} 条记录')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Imported ${imported.length} records')));
               } else {
                 Navigator.pop(ctx);
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text('未解析到有效记录')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('No valid records parsed')));
               }
             },
-            child: const Text('导入'),
+            child: const Text('Import'),
           ),
         ],
       ),

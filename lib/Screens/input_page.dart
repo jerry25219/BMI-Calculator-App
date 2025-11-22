@@ -85,7 +85,7 @@ class _InputPageState extends State<InputPage> {
     final due = last == null || now.difference(last).inDays >= days;
     if (due) {
       setState(() {
-        _reminderMessage = '该称重啦（每${days}天提醒一次）';
+        _reminderMessage = 'Time to weigh in (reminder every ${days} days)';
         _showReminder = true;
       });
     }

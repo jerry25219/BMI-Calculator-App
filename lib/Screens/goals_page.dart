@@ -42,14 +42,14 @@ class _GoalsPageState extends State<GoalsPage> {
     } else {
       await prefs.remove('reminder_days');
     }
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('已保存目标与提醒')));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Goals and reminders saved')));
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('目标与提醒')),
+      appBar: AppBar(title: const Text('Goals & Reminders')),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
@@ -64,16 +64,16 @@ class _GoalsPageState extends State<GoalsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('目标BMI', style: TextStyle(color: Colors.white, fontSize: 16)),
+                          const Text('Target BMI', style: TextStyle(color: Colors.white, fontSize: 16)),
                           const SizedBox(height: 8),
                           TextField(
                             controller: _goalBmiController,
                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            decoration: const InputDecoration(hintText: '例如：22.0'),
+                            decoration: const InputDecoration(hintText: 'e.g., 22.0'),
                             style: const TextStyle(color: Colors.white),
                           ),
                           const SizedBox(height: 8),
-                          const Text('建议设置在正常范围 18.5 – 23.9 内。', style: TextStyle(color: Colors.white70, fontSize: 12)),
+                          const Text('Recommended range: 18.5 – 23.9', style: TextStyle(color: Colors.white70, fontSize: 12)),
                         ],
                       ),
                     ),
@@ -86,26 +86,25 @@ class _GoalsPageState extends State<GoalsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('称重提醒（天）', style: TextStyle(color: Colors.white, fontSize: 16)),
+                          const Text('Weigh-in reminder (days)', style: TextStyle(color: Colors.white, fontSize: 16)),
                           const SizedBox(height: 8),
                           TextField(
                             controller: _reminderDaysController,
                             keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(hintText: '例如：3（每3天提醒一次）'),
+                            decoration: const InputDecoration(hintText: 'e.g., 3 (remind every 3 days)'),
                             style: const TextStyle(color: Colors.white),
                           ),
                           const SizedBox(height: 8),
-                          const Text('提醒不会发送系统通知，仅在应用内提示，可随时清空停用。', style: TextStyle(color: Colors.white70, fontSize: 12)),
+                          const Text('Note: No system notifications, only in-app prompts. You can clear/disable anytime.', style: TextStyle(color: Colors.white70, fontSize: 12)),
                         ],
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(onPressed: _save, child: const Text('保存')),
+                  ElevatedButton(onPressed: _save, child: const Text('Save')),
                 ],
               ),
             ),
     );
   }
 }
-

@@ -74,13 +74,13 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
     return [
       GroupTabConfig(
         id: 'input',
-        title: '首页',
+        title: 'Home',
         icon: Icons.home,
         builder: () => InputPage(),
       ),
       GroupTabConfig(
         id: 'history',
-        title: '历史',
+        title: 'History',
         icon: Icons.history,
         builder: () => BMIHistoryPage(),
         badgeCounter: () async {
@@ -90,14 +90,14 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
       ),
       GroupTabConfig(
         id: 'trend',
-        title: '趋势',
+        title: 'Trend',
         icon: Icons.show_chart,
         builder: () => BMITrendPage(),
       ),
       // 工具聚合页，将目标、营养、体脂、资料、隐私等页面内嵌为二级 Tab
       GroupTabConfig(
-        id: 'tools',
-        title: '工具',
+        id: 'setting',
+        title: 'Settings',
         icon: Icons.dashboard_customize,
         builder: () => const ToolsHubPage(),
         // 使用提醒到期与否作为角标（来自 Goals 的逻辑）
@@ -174,7 +174,8 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
       builder: (ctx) {
         return AlertDialog(
           backgroundColor: kactiveCardColor,
-          title: const Text('管理分组', style: TextStyle(color: Colors.white)),
+          title:
+              const Text('Manage Tabs', style: TextStyle(color: Colors.white)),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView(
@@ -209,11 +210,11 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('取消'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(ctx, selected.toList()),
-              child: const Text('确定'),
+              child: const Text('Confirm'),
             ),
           ],
         );

@@ -133,13 +133,13 @@ class Calculate {
   String getAdvise() {
     // 简化建议，后续可根据年龄/性别/活动水平进一步个性化
     if (_bmi >= 28.0) {
-      return '您的BMI处于肥胖范围。建议逐步控制能量摄入，增加每周中等强度运动（如快走、骑行）。请以每周0.5kg以内的节奏减重，并咨询医生获取个性化建议。';
+      return 'Your BMI is in the obese range. Gradually reduce energy intake and increase moderate-intensity exercise (e.g., brisk walking, cycling). Aim to lose no more than 0.5 kg per week and consult a doctor for personalized advice.';
     } else if (_bmi >= 24.0) {
-      return '您的BMI处于超重范围。建议控制高能量密度食物（含糖饮料、油炸类），每周至少150分钟有氧运动，配合力量训练。';
+      return 'Your BMI is in the overweight range. Reduce high energy density foods (sugary drinks, fried foods), and do at least 150 minutes of aerobic exercise per week along with strength training.';
     } else if (_bmi >= 18.5) {
-      return '您的BMI处于正常范围。保持均衡饮食与规律运动，优先蔬果、全谷物与优质蛋白。';
+      return 'Your BMI is in the normal range. Maintain a balanced diet and regular exercise; prioritize vegetables, whole grains, and quality protein.';
     } else {
-      return '您的BMI偏低。建议适当增加能量与蛋白摄入，关注力量训练与休息恢复。如持续偏低，请咨询医生。';
+      return 'Your BMI is low. Increase energy and protein intake appropriately, focus on strength training and adequate rest. If it remains low, please consult a doctor.';
     }
   }
 

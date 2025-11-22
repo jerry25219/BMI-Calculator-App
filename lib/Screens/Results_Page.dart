@@ -119,18 +119,18 @@ class _ResultPageState extends State<ResultPage> {
                     style: kBMITextStyle,
                   ),
                   Text(
-                    '中国成人BMI分级（参考）',
+                    'China adult BMI categories (reference)',
                     style: klabelTextStyle,
                   ),
                   Column(
                     children: const [
-                      Text('< 18.5：偏瘦', style: kBodyTextStyle),
+                      Text('< 18.5: Underweight', style: kBodyTextStyle),
                       SizedBox(height: 4),
-                      Text('18.5 – 23.9：正常', style: kBodyTextStyle),
+                      Text('18.5 – 23.9: Normal', style: kBodyTextStyle),
                       SizedBox(height: 4),
-                      Text('24.0 – 27.9：超重', style: kBodyTextStyle),
+                      Text('24.0 – 27.9: Overweight', style: kBodyTextStyle),
                       SizedBox(height: 4),
-                      Text('≥ 28：肥胖', style: kBodyTextStyle),
+                      Text('≥ 28: Obese', style: kBodyTextStyle),
                     ],
                   ),
                   Text(
@@ -139,7 +139,7 @@ class _ResultPageState extends State<ResultPage> {
                     style: kBodyTextStyle,
                   ),
                   Text(
-                    '活动水平：${_activityLabel(widget.activity)}',
+                    'Activity level: ${_activityLabel(widget.activity)}',
                     style:
                         const TextStyle(fontSize: 12.0, color: Colors.white70),
                   ),
@@ -272,10 +272,10 @@ class _ResultPageState extends State<ResultPage> {
 String _activityLabel(String activity) {
   switch (activity) {
     case 'light':
-      return '轻度活动';
+      return 'Lightly active';
     case 'active':
-      return '活跃';
+      return 'Active';
     default:
-      return '久坐';
+      return 'Sedentary';
   }
 }

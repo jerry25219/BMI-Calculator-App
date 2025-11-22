@@ -40,7 +40,7 @@ class _NutritionToolsPageState extends State<NutritionToolsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('能量与营养计算')),
+      appBar: AppBar(title: const Text('Energy & Nutrition Calculator')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -53,7 +53,7 @@ class _NutritionToolsPageState extends State<NutritionToolsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('基本信息', style: TextStyle(color: Colors.white, fontSize: 16)),
+                    const Text('Basic Information', style: TextStyle(color: Colors.white, fontSize: 16)),
                     const SizedBox(height: 8),
                     Row(children: [
                       ChoiceChip(label: const Text('Male'), selected: gender == 'male', onSelected: (_) => setState(() => gender = 'male')),
@@ -65,14 +65,14 @@ class _NutritionToolsPageState extends State<NutritionToolsPage> {
                     _numberRow('Height (cm)', height, (v) => setState(() => height = v)),
                     _numberRow('Weight (kg)', weight, (v) => setState(() => weight = v)),
                     const SizedBox(height: 8),
-                    const Text('活动水平', style: TextStyle(color: Colors.white)),
+                    const Text('Activity Level', style: TextStyle(color: Colors.white)),
                     Wrap(spacing: 8, children: [
                       ChoiceChip(label: const Text('Sedentary'), selected: activity == 'sedentary', onSelected: (_) => setState(() => activity = 'sedentary')),
                       ChoiceChip(label: const Text('Lightly Active'), selected: activity == 'light', onSelected: (_) => setState(() => activity = 'light')),
                       ChoiceChip(label: const Text('Active'), selected: activity == 'active', onSelected: (_) => setState(() => activity = 'active')),
                     ]),
                     const SizedBox(height: 12),
-                    ElevatedButton(onPressed: _calculate, child: const Text('计算')), 
+                    ElevatedButton(onPressed: _calculate, child: const Text('Calculate')), 
                   ],
                 ),
               ),
@@ -86,17 +86,17 @@ class _NutritionToolsPageState extends State<NutritionToolsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('结果（仅供参考）', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      const Text('Results (for reference only)', style: TextStyle(color: Colors.white, fontSize: 16)),
                       const SizedBox(height: 8),
-                      Text('BMR（基础代谢）≈ ${bmr!.round()} kcal', style: const TextStyle(color: Colors.white)),
-                      Text('TDEE（维持能量）≈ ${tdee!.round()} kcal', style: const TextStyle(color: Colors.white)),
+                      Text('BMR (Basal Metabolic Rate) ≈ ${bmr!.round()} kcal', style: const TextStyle(color: Colors.white)),
+                      Text('TDEE (Maintenance Calories) ≈ ${tdee!.round()} kcal', style: const TextStyle(color: Colors.white)),
                       const SizedBox(height: 8),
-                      const Text('示例宏量营养分配：', style: TextStyle(color: Colors.white)),
-                      Text('• 40% 碳水：≈ ${(tdee!*0.4/4).round()} g', style: const TextStyle(color: Colors.white70)),
-                      Text('• 30% 蛋白：≈ ${(tdee!*0.3/4).round()} g', style: const TextStyle(color: Colors.white70)),
-                      Text('• 30% 脂肪：≈ ${(tdee!*0.3/9).round()} g', style: const TextStyle(color: Colors.white70)),
+                      const Text('Sample macronutrient distribution:', style: TextStyle(color: Colors.white)),
+                      Text('• 40% Carbs: ≈ ${(tdee!*0.4/4).round()} g', style: const TextStyle(color: Colors.white70)),
+                      Text('• 30% Protein: ≈ ${(tdee!*0.3/4).round()} g', style: const TextStyle(color: Colors.white70)),
+                      Text('• 30% Fat: ≈ ${(tdee!*0.3/9).round()} g', style: const TextStyle(color: Colors.white70)),
                       const SizedBox(height: 8),
-                      const Text('注意：不作为医疗建议；如需个性化方案，请咨询专业人士。', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                      const Text('Note: Not medical advice; consult a professional for personalized plans.', style: TextStyle(color: Colors.white54, fontSize: 12)),
                     ],
                   ),
                 ),
@@ -118,4 +118,3 @@ class _NutritionToolsPageState extends State<NutritionToolsPage> {
     );
   }
 }
-

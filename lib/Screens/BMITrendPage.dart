@@ -196,7 +196,7 @@ class _BMITrendPageState extends State<BMITrendPage> {
               ),
             ),
             const SizedBox(height: 8),
-            const Text('参考线: 18.5、23.9、27.9',
+            const Text('Reference lines: 18.5, 23.9, 27.9',
                 style: TextStyle(color: Colors.white70, fontSize: 12)),
           ],
         ),

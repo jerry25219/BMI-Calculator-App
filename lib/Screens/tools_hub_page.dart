@@ -51,21 +51,23 @@ class _ToolsHubPageState extends State<ToolsHubPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // 采用「设置页面」常规设计：分组 + 列表项 + 右箭头跳转
+    // Standard "Settings" style: grouped sections + list tiles + chevron navigation
     return Scaffold(
       appBar: AppBar(
-        title: const Text('工具'),
+        title: const Text('Settings'),
       ),
       body: SafeArea(
         child: ListView(
           children: [
-            const _SectionHeader(title: '目标与提醒'),
+            const _SectionHeader(title: 'Goals & Reminders'),
             _SettingsTile(
               icon: Icons.flag,
-              title: '目标 & 提醒',
-              subtitle: _goalsDue ? '已到期：建议尽快称重' : '设置目标BMI与本地提醒天数',
+              title: 'Goals & Reminders',
+              subtitle: _goalsDue
+                  ? 'Due: Please weigh in soon'
+                  : 'Set target BMI and local reminder interval',
               trailing: _goalsDue
-                  ? const _Badge(text: '待处理')
+                  ? const _Badge(text: 'Due')
                   : const Icon(Icons.chevron_right, color: Colors.white70),
               onTap: () async {
                 await Navigator.of(context)
@@ -73,45 +75,45 @@ class _ToolsHubPageState extends State<ToolsHubPage> {
                 _loadIndicators();
               },
             ),
-            const _SectionHeader(title: '计算工具'),
+            const _SectionHeader(title: 'Calculators'),
             _SettingsTile(
               icon: Icons.local_fire_department,
-              title: '能量与营养',
-              subtitle: 'BMR/TDEE 计算与示例宏量营养分配',
+              title: 'Energy & Nutrition',
+              subtitle: 'BMR/TDEE calculation and sample macro distribution',
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => NutritionToolsPage()),
               ),
             ),
             _SettingsTile(
               icon: Icons.monitor_weight,
-              title: '体脂与腰臀比',
-              subtitle: '海军体脂率公式与腰臀比估算',
+              title: 'Body Fat & WHR',
+              subtitle: 'US Navy body fat estimate and waist-hip ratio',
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => BodyEstimatorPage()),
               ),
             ),
-            const _SectionHeader(title: '资料与隐私'),
+            const _SectionHeader(title: 'Resources & Privacy'),
             _SettingsTile(
               icon: Icons.library_books,
-              title: '健康资料来源',
-              subtitle: '查看常用资料来源与链接',
+              title: 'Health Info Sources',
+              subtitle: 'View common sources and useful links',
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => HealthInfoSourcesPage()),
               ),
             ),
             _SettingsTile(
               icon: Icons.privacy_tip,
-              title: '隐私政策',
-              subtitle: '查看与撤回隐私政策同意',
+              title: 'Privacy Policy',
+              subtitle: 'View or withdraw privacy policy consent',
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => PrivacyPolicyWebView()),
               ),
             ),
-            const _SectionHeader(title: '帮助与反馈'),
+            const _SectionHeader(title: 'Help & Feedback'),
             _SettingsTile(
               icon: Icons.feedback,
-              title: '用户反馈',
-              subtitle: '提交问题与建议，帮助我们改进',
+              title: 'User Feedback',
+              subtitle: 'Submit issues and suggestions to help us improve',
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => FeedbackPage()),
               ),
@@ -120,7 +122,7 @@ class _ToolsHubPageState extends State<ToolsHubPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                '历史记录：$_historyCount 条',
+                'History records: $_historyCount',
                 style: const TextStyle(color: Colors.white54, fontSize: 13),
               ),
             ),
