@@ -2,12 +2,16 @@ import 'package:bmi_calculator_app/Screens/privacy_policy_webview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Components/Icon_Content.dart';
 import '../Components/Reusable_Bg.dart';
 import '../Components/RoundIcon_Button.dart';
 import '../constants.dart';
 import 'Results_Page.dart';
 import 'BMIHistoryPage.dart';
+import 'goals_page.dart';
+import 'nutrition_tools_page.dart';
+import 'body_estimator_page.dart';
 import '../Components/BottomContainer_Button.dart';
 import '../calculator_brain.dart';
 import 'feedback_page.dart';
@@ -34,6 +38,37 @@ class _InputPageState extends State<InputPage> {
   int height = 180;
   int weight = 50;
   int age = 20;
+  // 活动水平：久坐、轻度活动、活跃
+  String activity = 'sedentary';
+  String? _reminderMessage;
+  bool _showReminder = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkReminderDue();
+  }
+
+  Future<void> _checkReminderDue() async {
+    final prefs = await SharedPreferences.getInstance();
+    final days = prefs.getInt('reminder_days') ?? 0;
+    if (days <= 0) return;
+    final history = await BMIHistoryManager.getBMIHistory();
+    DateTime? last;
+    if (history.isNotEmpty) {
+      history.sort((a, b) => b.time.compareTo(a.time));
+      last = history.first.time;
+    }
+    final now = DateTime.now();
+    final due = last == null || now.difference(last).inDays >= days;
+    if (due) {
+      setState(() {
+        _reminderMessage = '该称重啦（每${days}天提醒一次）';
+        _showReminder = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +86,30 @@ class _InputPageState extends State<InputPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => BMIHistoryPage(),
+                    ),
+                  );
+                  break;
+                case 'goals':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GoalsPage(),
+                    ),
+                  );
+                  break;
+                case 'nutrition':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NutritionToolsPage(),
+                    ),
+                  );
+                  break;
+                case 'body':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BodyEstimatorPage(),
                     ),
                   );
                   break;
@@ -73,6 +132,36 @@ class _InputPageState extends State<InputPage> {
                     Icon(Icons.history, color: Colors.white),
                     SizedBox(width: 8),
                     Text('History'),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'nutrition',
+                child: Row(
+                  children: [
+                    Icon(Icons.local_fire_department, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('能量与营养计算'),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'body',
+                child: Row(
+                  children: [
+                    Icon(Icons.monitor_weight, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('体脂率/腰臀比'),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'goals',
+                child: Row(
+                  children: [
+                    Icon(Icons.flag, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text('Goals & Reminders'),
                   ],
                 ),
               ),
@@ -113,6 +202,24 @@ class _InputPageState extends State<InputPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (_showReminder && _reminderMessage != null)
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Card(
+                color: const Color(0xFF4C4F5E),
+                child: ListTile(
+                  leading: const Icon(Icons.notifications_active,
+                      color: Colors.white),
+                  title: Text(_reminderMessage!,
+                      style: const TextStyle(color: Colors.white)),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.white70),
+                    onPressed: () => setState(() => _showReminder = false),
+                  ),
+                ),
+              ),
+            ),
           Expanded(
             child: Row(
               children: [
@@ -197,6 +304,41 @@ class _InputPageState extends State<InputPage> {
                         });
                       },
                     ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // 活动水平选择
+          Expanded(
+            child: ReusableBg(
+              colour: kactiveCardColor,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('ACTIVITY LEVEL', style: klabelTextStyle),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8,
+                    children: [
+                      ChoiceChip(
+                        label: const Text('Sedentary'),
+                        selected: activity == 'sedentary',
+                        onSelected: (_) =>
+                            setState(() => activity = 'sedentary'),
+                      ),
+                      ChoiceChip(
+                        label: const Text('Lightly Active'),
+                        selected: activity == 'light',
+                        onSelected: (_) => setState(() => activity = 'light'),
+                      ),
+                      ChoiceChip(
+                        label: const Text('Active'),
+                        selected: activity == 'active',
+                        onSelected: (_) => setState(() => activity = 'active'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -308,6 +450,7 @@ class _InputPageState extends State<InputPage> {
                     gender: selectedGender,
                     height: height,
                     weight: weight,
+                    activity: activity,
                   ),
                 ),
               );

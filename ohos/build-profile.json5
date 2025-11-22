@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "/Users/wangbo/.ohos/config/default_ohos_r4PNcCs2o95EDIdAgxpIP2_7t7mdFOpVGYKkC48WX58=.cer",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001A6C2AFFFD47D46A0789B9418A5A3F84AD4589E079C9E001013E5BB18064013548B846BF23D646",
-          "profile": "/Users/wangbo/.ohos/config/default_ohos_r4PNcCs2o95EDIdAgxpIP2_7t7mdFOpVGYKkC48WX58=.p7b",
+          "storeFile": "/Users/wangbo/dragonfly/bmi_calculator_app/ohos/AppScope/bmi.p12",
+          "storePassword": "00000019038E6C890B212ED5F44FDC493ECD5DA2E7C0E9D8F3F56A011149E72BA2246C56FCE231EE7E",
+          "keyAlias": "bmi",
+          "keyPassword": "000000195DEEE8CB441D217DC2C91130BFF171BCF3981463AF086B958B276011C89D702E5476174461",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "/Users/wangbo/.ohos/config/default_ohos_r4PNcCs2o95EDIdAgxpIP2_7t7mdFOpVGYKkC48WX58=.p12",
-          "storePassword": "0000001A5A09516EA34352724F800451EFB99B204BF5FB650B32A34B073A2508C27AEFCA617BC53ABB1F"
+          "profile": "/Users/wangbo/dragonfly/bmi_calculator_app/ohos/AppScope/bmifocusRelease.p7b",
+          "certpath": "/Users/wangbo/dragonfly/bmi_calculator_app/ohos/AppScope/bmi.cer"
         }
       }
     ],

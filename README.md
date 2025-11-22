@@ -1,4 +1,4 @@
-https://gitlab.system-screen.com/phoenix-cloud/phoenix-appldy 
+https://gitlab.system-screen.com/phoenix-cloud/phoenix-calculatorapp/-/blob/main/applinking.json
 
 ## 测试用例
 1. deeplink 和 unilink  各种环境的唤起
@@ -28,3 +28,6 @@ hWEw8MUrNJ89hxT
 https://lixsms.com/?code=gXdAaesu
 
 flutter create --platforms ohos .
+
+/// 鸿蒙打包上架
+https://juejin.cn/post/7520478620044410899

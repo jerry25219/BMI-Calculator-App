@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import 'privacy_policy_screen.dart';
-import 'input_page.dart';
+import 'home_tab_container.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String id = 'splash_screen';
@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final bool? privacyAccepted = prefs.getBool('privacy_accepted');
 
     if (privacyAccepted == true) {
-      Navigator.pushReplacementNamed(context, InputPage.id);
+      Navigator.pushReplacementNamed(context, HomeTabContainerPage.id);
     } else {
       Navigator.pushReplacementNamed(context, PrivacyPolicyScreen.id);
     }

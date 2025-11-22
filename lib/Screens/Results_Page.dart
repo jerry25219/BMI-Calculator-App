@@ -1,4 +1,5 @@
 import 'package:bmi_calculator_app/Components/BottomContainer_Button.dart';
+import 'package:bmi_calculator_app/Screens/BMITrendPage.dart';
 import 'package:bmi_calculator_app/Screens/input_page.dart';
 import 'package:bmi_calculator_app/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ class ResultPage extends StatefulWidget {
   final Gender gender;
   final int height;
   final int weight;
+  final String activity;
 
   ResultPage({
     required this.textColor,
@@ -26,6 +28,7 @@ class ResultPage extends StatefulWidget {
     required this.gender,
     required this.height,
     required this.weight,
+    required this.activity,
   });
 
   @override
@@ -54,6 +57,7 @@ class _ResultPageState extends State<ResultPage> {
       gender: genderStr,
       bmi: bmiValue,
       time: DateTime.now(),
+      activity: widget.activity,
     );
 
     // Save record
@@ -77,12 +81,18 @@ class _ResultPageState extends State<ResultPage> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Container(
+      bottomNavigationBar: BottomContainer(
+        text: 'RE-CALCULATE',
+        onTap: () {
+          Navigator.pop(context);
+        },
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
               padding: EdgeInsets.all(15.0),
               alignment: Alignment.bottomCenter,
               child: Text(
@@ -90,10 +100,7 @@ class _ResultPageState extends State<ResultPage> {
                 style: ktitleTextStyle,
               ),
             ),
-          ),
-          Expanded(
-            flex: 5,
-            child: ReusableBg(
+            ReusableBg(
               colour: kactiveCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,17 +119,29 @@ class _ResultPageState extends State<ResultPage> {
                     style: kBMITextStyle,
                   ),
                   Text(
-                    'Normal BMI range:',
+                    '中国成人BMI分级（参考）',
                     style: klabelTextStyle,
                   ),
-                  Text(
-                    '18.5 - 24.9 kg/m²',
-                    style: kBodyTextStyle,
+                  Column(
+                    children: const [
+                      Text('< 18.5：偏瘦', style: kBodyTextStyle),
+                      SizedBox(height: 4),
+                      Text('18.5 – 23.9：正常', style: kBodyTextStyle),
+                      SizedBox(height: 4),
+                      Text('24.0 – 27.9：超重', style: kBodyTextStyle),
+                      SizedBox(height: 4),
+                      Text('≥ 28：肥胖', style: kBodyTextStyle),
+                    ],
                   ),
                   Text(
                     widget.advise,
                     textAlign: TextAlign.center,
                     style: kBodyTextStyle,
+                  ),
+                  Text(
+                    '活动水平：${_activityLabel(widget.activity)}',
+                    style:
+                        const TextStyle(fontSize: 12.0, color: Colors.white70),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -168,50 +187,95 @@ class _ResultPageState extends State<ResultPage> {
                   SizedBox(
                     height: 15.0,
                   ),
-                  RawMaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BMIHistoryPage(),
+                  Row(
+                    children: [
+                      RawMaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BMIHistoryPage(),
+                            ),
+                          );
+                        },
+                        constraints: BoxConstraints.tightFor(
+                          width: 200.0,
+                          height: 56.0,
                         ),
-                      );
-                    },
-                    constraints: BoxConstraints.tightFor(
-                      width: 200.0,
-                      height: 56.0,
-                    ),
-                    fillColor: Color(0xFF4C4F5E),
-                    elevation: 0.0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.history,
-                          color: Colors.white,
+                        fillColor: Color(0xFF4C4F5E),
+                        elevation: 0.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.history,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 8.0),
+                            Text(
+                              'VIEW HISTORY',
+                              style: kBodyTextStyle,
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          'VIEW HISTORY',
-                          style: kBodyTextStyle,
+                      ),
+                      Spacer(),
+                      RawMaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BMITrendPage(),
+                            ),
+                          );
+                        },
+                        constraints: const BoxConstraints.tightFor(
+                          width: 200.0,
+                          height: 56.0,
                         ),
-                      ],
-                    ),
+                        fillColor: const Color(0xFF4C4F5E),
+                        elevation: 0.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(
+                              Icons.show_chart,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 8.0),
+                            Text(
+                              'VIEW TREND',
+                              style: kBodyTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 12,
                   ),
                 ],
               ),
             ),
-          ),
-          BottomContainer(
-            text: 'RE-CALCULATE',
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+String _activityLabel(String activity) {
+  switch (activity) {
+    case 'light':
+      return '轻度活动';
+    case 'active':
+      return '活跃';
+    default:
+      return '久坐';
   }
 }

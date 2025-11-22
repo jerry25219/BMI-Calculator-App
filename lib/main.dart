@@ -18,6 +18,7 @@ import 'Screens/splash_screen.dart';
 import 'Screens/privacy_policy_screen.dart';
 import 'Screens/privacy_policy_webview.dart';
 import 'Screens/feedback_page.dart';
+import 'Screens/home_tab_container.dart';
 import 'apx/pages/loading_page.dart';
 import 'Screens/health_info_sources.dart';
 import 'apx/services/navigation_service.dart';
@@ -81,6 +82,10 @@ class _MyAppState extends State<MyApp> {
         SplashScreen.id: (context) => SplashScreen(),
         WebViewApp.routeName: (context) => WebViewApp(),
         InputPage.id: (context) => InputPage(),
+        HomeTabContainerPage.id: (context) => HomeTabContainerPage(
+              allowSwipe: defaultTargetPlatform == TargetPlatform.iOS ||
+                  defaultTargetPlatform == TargetPlatform.android,
+            ),
         PrivacyPolicyScreen.id: (context) => PrivacyPolicyScreen(),
         PrivacyPolicyWebView.id: (context) => PrivacyPolicyWebView(),
         FeedbackPage.id: (context) => FeedbackPage(),
@@ -92,7 +97,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     eventBus.on<String>().listen((event) {
       logger.i('eventbus ---- $event');
-      if(Platform.isOhos) {
+      if (Platform.isOhos) {
         logger.i('Received event on OHOS: $event');
         // Navigator.of(context).pushReplacementNamed(LoadingPage.routeName);
         NavigationService.navigateTo(LoadingPage.routeName);
@@ -107,68 +112,67 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => ApplicationBloc()),
       ],
       child: MaterialApp(
-            theme: ThemeData.dark().copyWith(
-              primaryColor: Color(0xFF0A0E21),
-              scaffoldBackgroundColor: Color(0xFF0A0E21),
-            ),
-            builder: (context, child) {
-              return OKToast(child: child!);
-            },
-            debugShowCheckedModeBanner: false,
-            debugShowMaterialGrid: false,
-            initialRoute: LoadingPage.routeName,
-            routes: _routes,
-             navigatorKey: NavigationService.navigatorKey,
-            onGenerateRoute: (RouteSettings settings) {
-              final String? routeName = settings.name;
+        theme: ThemeData.dark().copyWith(
+          primaryColor: Color(0xFF0A0E21),
+          scaffoldBackgroundColor: Color(0xFF0A0E21),
+        ),
+        builder: (context, child) {
+          return OKToast(child: child!);
+        },
+        debugShowCheckedModeBanner: false,
+        debugShowMaterialGrid: false,
+        initialRoute: LoadingPage.routeName,
+        routes: _routes,
+        navigatorKey: NavigationService.navigatorKey,
+        onGenerateRoute: (RouteSettings settings) {
+          final String? routeName = settings.name;
 
-              if (routeName != null) {
-                try {
-                  String path;
-                  Map<String, String> queryParams = {};
-                  if (routeName.startsWith('dfbmi://')) {
-                    final uri = Uri.parse(routeName);
-                    path = uri.host;
-                    queryParams = uri.queryParameters;
-                    deepLinkQueryParams = uri.queryParameters;
-                  } else {
-                    final uri = Uri.parse(routeName);
-                    path = uri.path.replaceAll(RegExp(r'^/+|/+$'), '');
-                    queryParams = uri.queryParameters;
-                    deepLinkQueryParams = uri.queryParameters;
-                    if (path.isEmpty && queryParams.containsKey('code')) {
-                      path = 'home';
-                    }
-                  }
-                  logger.i('deepLink $deepLinkQueryParams');
-                  if (path == 'home') {
-                    // final code = queryParams['code'];
-                    // final host = queryParams['host'];
-                    // final platform = queryParams['platform'];
-                    // final mode = queryParams['mode'];
-                    return MaterialPageRoute<void>(
-                      settings: RouteSettings(
-                        name: LoadingPage.routeName,
-                        arguments: deepLinkQueryParams,
-                      ),
-                      // arguments: code != null
-                      //     ? {'code': code, 'host': host, 'platform': platform}
-                      //     : null),
-                      builder: (context) => LoadingPage(),
-                    );
-                  }
-                } catch (e) {}
+          if (routeName != null) {
+            try {
+              String path;
+              Map<String, String> queryParams = {};
+              if (routeName.startsWith('dfbmi://')) {
+                final uri = Uri.parse(routeName);
+                path = uri.host;
+                queryParams = uri.queryParameters;
+                deepLinkQueryParams = uri.queryParameters;
+              } else {
+                final uri = Uri.parse(routeName);
+                path = uri.path.replaceAll(RegExp(r'^/+|/+$'), '');
+                queryParams = uri.queryParameters;
+                deepLinkQueryParams = uri.queryParameters;
+                if (path.isEmpty && queryParams.containsKey('code')) {
+                  path = 'home';
+                }
               }
-              if (_routes.containsKey(routeName)) {
+              logger.i('deepLink $deepLinkQueryParams');
+              if (path == 'home') {
+                // final code = queryParams['code'];
+                // final host = queryParams['host'];
+                // final platform = queryParams['platform'];
+                // final mode = queryParams['mode'];
                 return MaterialPageRoute<void>(
-                    settings: settings,
-                    builder: (context) => _routes[routeName]!(context));
+                  settings: RouteSettings(
+                    name: LoadingPage.routeName,
+                    arguments: deepLinkQueryParams,
+                  ),
+                  // arguments: code != null
+                  //     ? {'code': code, 'host': host, 'platform': platform}
+                  //     : null),
+                  builder: (context) => LoadingPage(),
+                );
               }
-              return MaterialPageRoute<void>(
-                  settings: settings, builder: (context) => Container());
-            },
-          ),
-
+            } catch (e) {}
+          }
+          if (_routes.containsKey(routeName)) {
+            return MaterialPageRoute<void>(
+                settings: settings,
+                builder: (context) => _routes[routeName]!(context));
+          }
+          return MaterialPageRoute<void>(
+              settings: settings, builder: (context) => Container());
+        },
+      ),
     );
   }
 }

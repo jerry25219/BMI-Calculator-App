@@ -9,6 +9,7 @@ class BMIRecord {
   final String gender;
   final double bmi;
   final DateTime time;
+  final String? activity; // sedentary | light | active
 
   BMIRecord({
     required this.height,
@@ -16,6 +17,7 @@ class BMIRecord {
     required this.gender,
     required this.bmi,
     required this.time,
+    this.activity,
   });
 
   // 将对象转换为JSON
@@ -26,6 +28,7 @@ class BMIRecord {
       'gender': gender,
       'bmi': bmi,
       'time': time.toIso8601String(),
+      'activity': activity,
     };
   }
 
@@ -37,6 +40,7 @@ class BMIRecord {
       gender: json['gender'],
       bmi: json['bmi'],
       time: DateTime.parse(json['time']),
+      activity: json['activity'],
     );
   }
 }
@@ -59,6 +63,13 @@ class BMIHistoryManager {
         records.map((record) => jsonEncode(record.toJson())).toList();
 
     // 保存到SharedPreferences
+    await prefs.setStringList(_storageKey, jsonList);
+  }
+
+  // 用整体列表覆盖保存（用于编辑/删除）
+  static Future<void> setBMIHistory(List<BMIRecord> records) async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = records.map((r) => jsonEncode(r.toJson())).toList();
     await prefs.setStringList(_storageKey, jsonList);
   }
 
@@ -112,30 +123,30 @@ class Calculate {
   }
 
   String getText() {
-    if (_bmi >= 25) {
-      return 'OVERWEIGHT';
-    } else if (_bmi > 18.5) {
-      return 'NORMAL';
-    } else {
-      return 'UNDERWEIGHT';
-    }
+    // 使用中国成人BMI分级
+    if (_bmi >= 28.0) return 'OBESE';
+    if (_bmi >= 24.0) return 'OVERWEIGHT';
+    if (_bmi >= 18.5) return 'NORMAL';
+    return 'UNDERWEIGHT';
   }
 
   String getAdvise() {
-    if (_bmi >= 25) {
-      return 'You have a more than normal body weight.\n Try to do more Exercise';
-    } else if (_bmi > 18.5) {
-      return 'You have a normal body weight.\nGood job!';
+    // 简化建议，后续可根据年龄/性别/活动水平进一步个性化
+    if (_bmi >= 28.0) {
+      return '您的BMI处于肥胖范围。建议逐步控制能量摄入，增加每周中等强度运动（如快走、骑行）。请以每周0.5kg以内的节奏减重，并咨询医生获取个性化建议。';
+    } else if (_bmi >= 24.0) {
+      return '您的BMI处于超重范围。建议控制高能量密度食物（含糖饮料、油炸类），每周至少150分钟有氧运动，配合力量训练。';
+    } else if (_bmi >= 18.5) {
+      return '您的BMI处于正常范围。保持均衡饮食与规律运动，优先蔬果、全谷物与优质蛋白。';
     } else {
-      return 'You have a lower than normal body weight.\n Try to eat more';
+      return '您的BMI偏低。建议适当增加能量与蛋白摄入，关注力量训练与休息恢复。如持续偏低，请咨询医生。';
     }
   }
 
   Color getTextColor() {
-    if (_bmi >= 25 || _bmi <= 18.5) {
+    if (_bmi >= 24.0 || _bmi < 18.5) {
       return Colors.deepOrangeAccent;
-    } else {
-      return Color(0xFF24D876);
     }
+    return const Color(0xFF24D876);
   }
 }

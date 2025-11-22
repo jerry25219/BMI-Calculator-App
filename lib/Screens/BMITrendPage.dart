@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../calculator_brain.dart';
 import '../constants.dart';
 
@@ -20,6 +20,7 @@ enum CategoryFilter { all, underweight, normal, overweight }
 class _BMITrendPageState extends State<BMITrendPage> {
   List<BMIRecord> _allRecords = [];
   bool _loading = true;
+  double? _goalBmi;
 
   // Filters
   TimeRangePreset _timePreset = TimeRangePreset.month;
@@ -38,9 +39,12 @@ class _BMITrendPageState extends State<BMITrendPage> {
   Future<void> _loadData() async {
     setState(() => _loading = true);
     final records = await BMIHistoryManager.getBMIHistory();
+    final prefs = await SharedPreferences.getInstance();
+    final goal = prefs.getDouble('goal_bmi');
     setState(() {
       _allRecords = records;
       _loading = false;
+      _goalBmi = goal;
     });
   }
 
@@ -149,12 +153,10 @@ class _BMITrendPageState extends State<BMITrendPage> {
     }
 
     final data = _downsample(records);
-    final spots = <FlSpot>[];
-    for (int i = 0; i < data.length; i++) {
-      spots.add(FlSpot(i.toDouble(), data[i].bmi));
-    }
     final minY = data.map((e) => e.bmi).reduce(math.min);
     final maxY = data.map((e) => e.bmi).reduce(math.max);
+    final yMin = (minY - 1).floorToDouble();
+    final yMax = (maxY + 1).ceilToDouble();
 
     String formatTick(int idx) {
       if (idx < 0 || idx >= data.length) return '';
@@ -184,96 +186,18 @@ class _BMITrendPageState extends State<BMITrendPage> {
             const SizedBox(height: 12),
             SizedBox(
               height: height,
-              child: LineChart(
-                LineChartData(
-                  minX: 0,
-                  maxX: (data.length - 1).toDouble(),
-                  minY: (minY - 1).floorToDouble(),
-                  maxY: (maxY + 1).ceilToDouble(),
-                  gridData: FlGridData(
-                      show: true,
-                      horizontalInterval: 1,
-                      verticalInterval:
-                          math.max(1, (data.length / 6).floorToDouble())),
-                  borderData: FlBorderData(
-                      show: true,
-                      border: const Border(
-                          bottom: BorderSide(color: Colors.white24),
-                          left: BorderSide(color: Colors.white24))),
-                  titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 40,
-                            interval: 1,
-                            getTitlesWidget: (value, meta) => Text(
-                                value.toStringAsFixed(0),
-                                style: const TextStyle(
-                                    color: Colors.white70, fontSize: 12)))),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 28,
-                        getTitlesWidget: (value, meta) {
-                          final idx = value.round();
-                          final show = labelIndexes.contains(idx);
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: Text(show ? formatTick(idx) : '',
-                                style: const TextStyle(
-                                    color: Colors.white70, fontSize: 12)),
-                          );
-                        },
-                      ),
-                    ),
-                    rightTitles:
-                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    topTitles:
-                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  ),
-                  lineTouchData: LineTouchData(
-                      handleBuiltInTouches: true,
-                      touchTooltipData: LineTouchTooltipData(
-                          tooltipBgColor: Colors.black87,
-                          getTooltipItems: (spots) {
-                            return spots.map((s) {
-                              final idx = s.x.toInt();
-                              final r = data[idx];
-                              final t = r.time;
-                              final dateStr =
-                                  '${t.year}-${t.month.toString().padLeft(2, '0')}-${t.day.toString().padLeft(2, '0')}';
-                              return LineTooltipItem(
-                                  'BMI ${r.bmi.toStringAsFixed(1)}\n$dateStr',
-                                  const TextStyle(
-                                      color: Colors.white, fontSize: 12));
-                            }).toList();
-                          })),
-                  lineBarsData: [
-                    LineChartBarData(
-                        spots: spots,
-                        isCurved: true,
-                        color: const Color(0xFF24D876),
-                        barWidth: 3,
-                        dotData: FlDotData(show: true),
-                        belowBarData: BarAreaData(
-                            show: true,
-                            color: const Color(0xFF24D876).withOpacity(0.2)))
-                  ],
-                  extraLinesData: ExtraLinesData(horizontalLines: [
-                    HorizontalLine(
-                        y: 18.5,
-                        color: Colors.orangeAccent,
-                        strokeWidth: 1,
-                        dashArray: [4, 4]),
-                    HorizontalLine(
-                        y: 24.9,
-                        color: Colors.orangeAccent,
-                        strokeWidth: 1,
-                        dashArray: [4, 4]),
-                  ]),
-                ),
+              child: _BMIChart(
+                records: data,
+                yMin: yMin,
+                yMax: yMax,
+                labelIndexes: labelIndexes.toList()..sort(),
+                formatTick: formatTick,
+                goalBmi: _goalBmi,
               ),
             ),
+            const SizedBox(height: 8),
+            const Text('参考线: 18.5、23.9、27.9',
+                style: TextStyle(color: Colors.white70, fontSize: 12)),
           ],
         ),
       ),
@@ -466,11 +390,6 @@ class _BMITrendPageState extends State<BMITrendPage> {
       appBar: AppBar(
         title: const Text('BMI Trend'),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          tooltip: 'Back',
-          onPressed: () => Navigator.pop(context),
-        ),
         actions: const [],
       ),
       body: _loading
@@ -506,5 +425,209 @@ class _BMITrendPageState extends State<BMITrendPage> {
               },
             ),
     );
+  }
+}
+
+class _BMIChart extends StatelessWidget {
+  final List<BMIRecord> records;
+  final double yMin;
+  final double yMax;
+  final List<int> labelIndexes;
+  final String Function(int) formatTick;
+  final double? goalBmi;
+
+  const _BMIChart({
+    Key? key,
+    required this.records,
+    required this.yMin,
+    required this.yMax,
+    required this.labelIndexes,
+    required this.formatTick,
+    this.goalBmi,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      return CustomPaint(
+        painter: _BMIChartPainter(
+          records: records,
+          yMin: yMin,
+          yMax: yMax,
+          labelIndexes: labelIndexes,
+          formatTick: formatTick,
+          goalBmi: goalBmi,
+        ),
+        size: Size(constraints.maxWidth, constraints.maxHeight),
+      );
+    });
+  }
+}
+
+class _BMIChartPainter extends CustomPainter {
+  final List<BMIRecord> records;
+  final double yMin;
+  final double yMax;
+  final List<int> labelIndexes;
+  final String Function(int) formatTick;
+  final double? goalBmi;
+
+  _BMIChartPainter({
+    required this.records,
+    required this.yMin,
+    required this.yMax,
+    required this.labelIndexes,
+    required this.formatTick,
+    required this.goalBmi,
+  });
+
+  final Color axisColor = Colors.white24;
+  final Color gridColor = Colors.white12;
+  final Color lineColor = const Color(0xFF24D876);
+  final Color dotColor = Colors.white;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final padding = const EdgeInsets.fromLTRB(48, 16, 16, 32);
+    final chartRect = Rect.fromLTWH(
+        padding.left,
+        padding.top,
+        size.width - padding.left - padding.right,
+        size.height - padding.top - padding.bottom);
+
+    // Draw axes
+    final axisPaint = Paint()
+      ..color = axisColor
+      ..strokeWidth = 1;
+    // Y axis
+    canvas.drawLine(Offset(chartRect.left, chartRect.top),
+        Offset(chartRect.left, chartRect.bottom), axisPaint);
+    // X axis
+    canvas.drawLine(Offset(chartRect.left, chartRect.bottom),
+        Offset(chartRect.right, chartRect.bottom), axisPaint);
+
+    // Draw grid lines (horizontal every 1 BMI unit)
+    final gridPaint = Paint()
+      ..color = gridColor
+      ..strokeWidth = 1;
+    for (double y = yMin; y <= yMax; y += 1) {
+      final dy = _mapY(y, chartRect);
+      canvas.drawLine(
+          Offset(chartRect.left, dy), Offset(chartRect.right, dy), gridPaint);
+    }
+
+    // Draw dashed horizontal reference lines for CN classification
+    void drawDashedH(double yValue, Color color) {
+      final dy = _mapY(yValue, chartRect);
+      final dashPaint = Paint()
+        ..color = color
+        ..strokeWidth = 1;
+      const dashWidth = 6.0;
+      const dashSpace = 4.0;
+      double x = chartRect.left;
+      while (x < chartRect.right) {
+        final x2 = math.min(x + dashWidth, chartRect.right);
+        canvas.drawLine(Offset(x, dy), Offset(x2, dy), dashPaint);
+        x += dashWidth + dashSpace;
+      }
+    }
+
+    drawDashedH(18.5, Colors.orangeAccent);
+    drawDashedH(23.9, Colors.orangeAccent);
+    drawDashedH(27.9, Colors.orangeAccent);
+    if (goalBmi != null && goalBmi! >= yMin && goalBmi! <= yMax) {
+      drawDashedH(goalBmi!, Colors.lightBlueAccent);
+    }
+
+    // Prepare path for BMI line
+    final path = Path();
+    if (records.isNotEmpty) {
+      for (int i = 0; i < records.length; i++) {
+        final p = _mapPoint(i.toDouble(), records[i].bmi, chartRect);
+        if (i == 0) {
+          path.moveTo(p.dx, p.dy);
+        } else {
+          path.lineTo(p.dx, p.dy);
+        }
+      }
+    }
+    final linePaint = Paint()
+      ..color = lineColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.5;
+    canvas.drawPath(path, linePaint);
+
+    // Draw area under the curve (light fill)
+    final areaPath = Path.from(path);
+    areaPath.lineTo(
+        _mapPoint((records.length - 1).toDouble(), yMin, chartRect).dx,
+        _mapPoint((records.length - 1).toDouble(), yMin, chartRect).dy);
+    areaPath.lineTo(
+        _mapPoint(0, yMin, chartRect).dx, _mapPoint(0, yMin, chartRect).dy);
+    areaPath.close();
+    final fillPaint = Paint()
+      ..color = const Color(0xFF24D876).withOpacity(0.15)
+      ..style = PaintingStyle.fill;
+    canvas.drawPath(areaPath, fillPaint);
+
+    // Draw dots
+    final dotPaint = Paint()
+      ..color = dotColor
+      ..style = PaintingStyle.fill;
+    for (int i = 0; i < records.length; i++) {
+      final p = _mapPoint(i.toDouble(), records[i].bmi, chartRect);
+      canvas.drawCircle(p, 2.5, dotPaint);
+    }
+
+    // Draw left axis labels (every 1 BMI unit)
+    for (double y = yMin; y <= yMax; y += 1) {
+      final dy = _mapY(y, chartRect);
+      final tp = TextPainter(
+        text: TextSpan(
+          text: y.toStringAsFixed(0),
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      tp.layout();
+      tp.paint(
+          canvas, Offset(chartRect.left - 8 - tp.width, dy - tp.height / 2));
+    }
+
+    // Draw bottom axis labels at selected indexes
+    for (final idx in labelIndexes) {
+      final p = _mapPoint(idx.toDouble(), yMin, chartRect);
+      final label = formatTick(idx);
+      final tp = TextPainter(
+        text: TextSpan(
+          text: label,
+          style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      tp.layout(maxWidth: chartRect.width / 3);
+      tp.paint(canvas, Offset(p.dx - tp.width / 2, chartRect.bottom + 4));
+    }
+  }
+
+  double _mapY(double y, Rect rect) {
+    final t = (y - yMin) / (yMax - yMin);
+    return rect.bottom - t * rect.height;
+  }
+
+  Offset _mapPoint(double xIdx, double yVal, Rect rect) {
+    final x =
+        rect.left + (xIdx / math.max(1, (records.length - 1))) * rect.width;
+    final y = _mapY(yVal, rect);
+    return Offset(x, y);
+  }
+
+  @override
+  bool shouldRepaint(covariant _BMIChartPainter oldDelegate) {
+    return oldDelegate.records != records ||
+        oldDelegate.yMin != yMin ||
+        oldDelegate.yMax != yMax ||
+        oldDelegate.labelIndexes != labelIndexes ||
+        oldDelegate.goalBmi != goalBmi;
   }
 }
