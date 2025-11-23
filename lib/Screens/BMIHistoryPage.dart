@@ -68,7 +68,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
+                          horizontal: 10.0, vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -135,7 +135,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
               child: Text(key,
                   style: const TextStyle(color: Colors.white70, fontSize: 14)),
             ),
@@ -171,9 +171,9 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
 
     return Card(
       color: kactiveCardColor,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -183,7 +183,7 @@ class _BMIHistoryPageState extends State<BMIHistoryPage> {
                 Text(
                   'BMI: $bmiValue',
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),

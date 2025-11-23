@@ -1,3 +1,4 @@
+import 'package:bmi_calculator_app/Screens/tools_hub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,7 +8,6 @@ import '../calculator_brain.dart';
 import 'BMIHistoryPage.dart';
 import 'BMITrendPage.dart';
 import 'input_page.dart';
-import 'tools_hub_page.dart';
 
 class GroupTabConfig {
   final String id;
@@ -41,19 +41,16 @@ class HomeTabContainerPage extends StatefulWidget {
 class _HomeTabContainerPageState extends State<HomeTabContainerPage>
     with TickerProviderStateMixin {
   late List<GroupTabConfig> _allGroups;
-  late List<GroupTabConfig> _activeGroups;
   late TabController _tabController;
   final Set<int> _builtIndices = {0}; // 懒加载：记录已构建的索引
-  Map<String, int> _badgeMap = {};
 
   @override
   void initState() {
     super.initState();
     _allGroups = _buildAllGroups();
-    _activeGroups = [];
-    _tabController = TabController(length: 0, vsync: this);
+    // 固定为四个主页面：Home / History / Trend / Settings
+    _tabController = TabController(length: _allGroups.length, vsync: this);
     _tabController.addListener(_onTabChange);
-    _loadActiveGroups();
   }
 
   @override
@@ -119,137 +116,7 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
     ];
   }
 
-  Future<void> _loadActiveGroups() async {
-    final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getStringList('active_groups');
-    List<String> ids;
-    if (saved != null && saved.isNotEmpty) {
-      ids = saved;
-    } else if (widget.initialGroups != null &&
-        widget.initialGroups!.isNotEmpty) {
-      ids = widget.initialGroups!;
-    } else {
-      // 默认仅放置不超过 5 个底部标签：首页/历史/趋势/工具
-      ids = ['input', 'history', 'trend', 'tools'];
-    }
-    // 兼容旧的分组 id：若包含旧的功能页 id，则改为 tools 聚合
-    final legacy = {'goals', 'nutrition', 'body', 'sources', 'privacy'};
-    if (ids.any((e) => legacy.contains(e))) {
-      ids.removeWhere((e) => legacy.contains(e));
-      if (!ids.contains('tools')) ids.add('tools');
-    }
-    // 底部 TabBar 数量限制：不超过 5 个
-    if (ids.length > 5) {
-      ids = ids.take(5).toList();
-    }
-    setState(() {
-      _activeGroups =
-          _allGroups.where((g) => ids.contains(g.id)).toList(growable: true);
-      _tabController.removeListener(_onTabChange);
-      _tabController.dispose();
-      _tabController = TabController(length: _activeGroups.length, vsync: this);
-      _tabController.addListener(_onTabChange);
-      _builtIndices.clear();
-      _builtIndices.add(0);
-    });
-    _refreshBadges();
-  }
-
-  Future<void> _refreshBadges() async {
-    final map = <String, int>{};
-    for (final g in _activeGroups) {
-      if (g.badgeCounter != null) {
-        try {
-          map[g.id] = await g.badgeCounter!.call();
-        } catch (_) {}
-      }
-    }
-    if (mounted) setState(() => _badgeMap = map);
-  }
-
-  void _openManageGroups() async {
-    final selected = Set<String>.from(_activeGroups.map((g) => g.id));
-    final result = await showDialog<List<String>>(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: kactiveCardColor,
-          title:
-              const Text('Manage Tabs', style: TextStyle(color: Colors.white)),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: ListView(
-              shrinkWrap: true,
-              children: _allGroups.map((g) {
-                final checked = selected.contains(g.id);
-                return CheckboxListTile(
-                  value: checked,
-                  onChanged: (v) {
-                    if (v == true) {
-                      selected.add(g.id);
-                    } else {
-                      selected.remove(g.id);
-                    }
-                    // 强制刷新对话框状态
-                    (ctx as Element).markNeedsBuild();
-                  },
-                  activeColor: Colors.white,
-                  checkColor: kactiveCardColor,
-                  title: Row(
-                    children: [
-                      Icon(g.icon, color: Colors.white),
-                      const SizedBox(width: 8),
-                      Text(g.title,
-                          style: const TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(ctx, selected.toList()),
-              child: const Text('Confirm'),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (result != null) {
-      _applyGroupSelection(result);
-    }
-  }
-
-  void _applyGroupSelection(List<String> ids) {
-    setState(() {
-      _activeGroups =
-          _allGroups.where((g) => ids.contains(g.id)).toList(growable: true);
-      final old = _tabController.index;
-      _tabController.removeListener(_onTabChange);
-      _tabController.dispose();
-      _tabController = TabController(length: _activeGroups.length, vsync: this);
-      _tabController.addListener(_onTabChange);
-      _builtIndices.clear();
-      _builtIndices.add(0);
-      if (old < _activeGroups.length) {
-        _tabController.index = old;
-        _builtIndices.add(old);
-      }
-      _refreshBadges();
-    });
-    _persistActiveGroups(ids);
-  }
-
-  Future<void> _persistActiveGroups(List<String> ids) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('active_groups', ids);
-  }
+  // 已移除分组管理相关逻辑，固定为四个主页面
 
   @override
   Widget build(BuildContext context) {
@@ -261,19 +128,31 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
       body: TabBarView(
         controller: _tabController,
         physics: physics,
-        children: List.generate(_activeGroups.length, (i) => _lazyTab(i)),
+        children: List.generate(_allGroups.length, (i) => _lazyTab(i)),
       ),
-      bottomNavigationBar: Material(
-        color: theme.bottomAppBarTheme.color ?? kactiveCardColor,
-        child: TabBar(
-          controller: _tabController,
-          isScrollable: false,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          dividerColor: Colors.transparent,
-          tabs: _activeGroups.map((g) => _buildTab(g)).toList(),
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: _allGroups.map((g) => _buildTab(g)).toList(),
+        currentIndex: _tabController.index,
+        selectedItemColor: theme.bottomNavigationBarTheme.selectedItemColor,
+        unselectedItemColor: theme.bottomNavigationBarTheme.unselectedItemColor,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        onTap: (i) {
+          setState(() => _tabController.index = i);
+        },
       ),
+
+      // bottomNavigationBar: Material(
+      //   color: theme.bottomAppBarTheme.color ?? kactiveCardColor,
+      //   child: TabBar(
+      //     controller: _tabController,
+      //     isScrollable: false,
+      //     labelColor: Colors.white,
+      //     unselectedLabelColor: Colors.white70,
+      //     dividerColor: Colors.transparent,
+      //     tabs: _activeGroups.map((g) => _buildTab(g)).toList(),
+      //   ),
+      // ),
     );
   }
 
@@ -282,13 +161,13 @@ class _HomeTabContainerPageState extends State<HomeTabContainerPage>
     if (!built) {
       return const Center(child: CircularProgressIndicator());
     }
-    return _activeGroups[i].builder();
+    return _allGroups[i].builder();
   }
 
-  Widget _buildTab(GroupTabConfig g) {
-    return Tab(
+  BottomNavigationBarItem _buildTab(GroupTabConfig g) {
+    return BottomNavigationBarItem(
       icon: Icon(g.icon),
-      text: g.title,
+      label: g.title,
     );
   }
 }

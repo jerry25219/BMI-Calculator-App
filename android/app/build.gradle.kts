@@ -21,9 +21,10 @@ android {
     defaultConfig {
         applicationId = "com.dragonfly.calculator"
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        targetSdk = 35
+        // In Kotlin DSL for AGP, versionCode/versionName must be invoked as functions
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
     signingConfigs {

@@ -107,29 +107,29 @@ class _InputPageState extends State<InputPage> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (_showReminder && _reminderMessage != null)
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              child: Card(
-                color: const Color(0xFF4C4F5E),
-                child: ListTile(
-                  leading: const Icon(Icons.notifications_active,
-                      color: Colors.white),
-                  title: Text(_reminderMessage!,
-                      style: const TextStyle(color: Colors.white)),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white70),
-                    onPressed: () => setState(() => _showReminder = false),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (_showReminder && _reminderMessage != null)
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: Card(
+                  color: const Color(0xFF4C4F5E),
+                  child: ListTile(
+                    leading: const Icon(Icons.notifications_active,
+                        color: Colors.white),
+                    title: Text(_reminderMessage!,
+                        style: const TextStyle(color: Colors.white)),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.close, color: Colors.white70),
+                      onPressed: () => setState(() => _showReminder = false),
+                    ),
                   ),
                 ),
               ),
-            ),
-          Expanded(
-            child: Row(
+            Row(
               children: [
                 Expanded(
                   child: GestureDetector(
@@ -165,9 +165,7 @@ class _InputPageState extends State<InputPage> {
                 ),
               ],
             ),
-          ),
-          Expanded(
-            child: ReusableBg(
+            ReusableBg(
               colour: kactiveCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -216,10 +214,8 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-          ),
-          // 活动水平选择
-          Expanded(
-            child: ReusableBg(
+            // 活动水平选择
+            ReusableBg(
               colour: kactiveCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -251,9 +247,7 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-          ),
-          Expanded(
-            child: Row(
+            Row(
               children: [
                 Expanded(
                   child: ReusableBg(
@@ -339,9 +333,9 @@ class _InputPageState extends State<InputPage> {
                 ),
               ],
             ),
-          ),
-          // 移除底部“CALCULATE”按钮，统一到右上角
-        ],
+            // 移除底部“CALCULATE”按钮，统一到右上角
+          ],
+        ),
       ),
 
       // floatingActionButton: FloatingActionButton(

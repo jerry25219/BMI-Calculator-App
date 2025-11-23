@@ -55,6 +55,7 @@ class _ToolsHubPageState extends State<ToolsHubPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: ListView(

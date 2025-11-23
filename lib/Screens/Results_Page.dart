@@ -189,69 +189,77 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                   Row(
                     children: [
-                      RawMaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BMIHistoryPage(),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BMIHistoryPage(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: 40,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF4C4F5E),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          );
-                        },
-                        constraints: BoxConstraints.tightFor(
-                          width: 200.0,
-                          height: 56.0,
-                        ),
-                        fillColor: Color(0xFF4C4F5E),
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.history,
-                              color: Colors.white,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.history,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  'HISTORY',
+                                  style: kBodyTextStyle,
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              'VIEW HISTORY',
-                              style: kBodyTextStyle,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                      Spacer(),
-                      RawMaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BMITrendPage(),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BMITrendPage(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 40,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF4C4F5E),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          );
-                        },
-                        constraints: const BoxConstraints.tightFor(
-                          width: 200.0,
-                          height: 56.0,
-                        ),
-                        fillColor: const Color(0xFF4C4F5E),
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(
-                              Icons.show_chart,
-                              color: Colors.white,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(
+                                  Icons.show_chart,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  'TREND',
+                                  style: kBodyTextStyle,
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              'VIEW TREND',
-                              style: kBodyTextStyle,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
