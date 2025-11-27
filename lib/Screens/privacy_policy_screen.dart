@@ -1,3 +1,4 @@
+import 'package:bmi_calculator_app/Screens/home_tab_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -160,7 +161,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           // 同意，保存状态并进入主页
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.setBool('privacy_accepted', true);
-                          Navigator.pushReplacementNamed(context, InputPage.id);
+                          Navigator.pushReplacementNamed(
+                              context, HomeTabContainerPage.id);
                         },
                         child: Text(
                           'Agree',

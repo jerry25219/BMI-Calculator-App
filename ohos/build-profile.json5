@@ -6,9 +6,9 @@
         "type": "HarmonyOS",
         "material": {
           "storeFile": "/Users/wangbo/dragonfly/bmi_calculator_app/ohos/AppScope/bmi.p12",
-          "storePassword": "00000019038E6C890B212ED5F44FDC493ECD5DA2E7C0E9D8F3F56A011149E72BA2246C56FCE231EE7E",
+          "storePassword": "0000001926009E2FB6F9952C93981E21F4C8A06073FB2F72309258A13A5D8808426A1167D377ACB573",
           "keyAlias": "bmi",
-          "keyPassword": "000000195DEEE8CB441D217DC2C91130BFF171BCF3981463AF086B958B276011C89D702E5476174461",
+          "keyPassword": "00000019DBCF8D16626451C338ADC5764E453751E5EB3A194B56933C71EADC33E28329657A8B4A7401",
           "signAlg": "SHA256withECDSA",
           "profile": "/Users/wangbo/dragonfly/bmi_calculator_app/ohos/AppScope/bmifocusRelease.p7b",
           "certpath": "/Users/wangbo/dragonfly/bmi_calculator_app/ohos/AppScope/bmi.cer"
