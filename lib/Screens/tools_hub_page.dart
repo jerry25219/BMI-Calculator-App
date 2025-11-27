@@ -7,6 +7,8 @@ import 'goals_page.dart';
 import 'nutrition_tools_page.dart';
 import 'body_estimator_page.dart';
 import 'health_info_sources.dart';
+import 'HealthAdvicePage.dart';
+import 'BmrTdeeCalculatorPage.dart';
 import 'privacy_policy_screen.dart';
 import 'feedback_page.dart';
 
@@ -86,6 +88,15 @@ class _ToolsHubPageState extends State<ToolsHubPage> {
               ),
             ),
             _SettingsTile(
+              icon: Icons.calculate,
+              title: 'BMR & TDEE',
+              subtitle: 'Metabolic rate and daily energy estimation',
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (_) => const BmrTdeeCalculatorPage()),
+              ),
+            ),
+            _SettingsTile(
               icon: Icons.monitor_weight,
               title: 'Body Fat & WHR',
               subtitle: 'US Navy body fat estimate and waist-hip ratio',
@@ -94,6 +105,15 @@ class _ToolsHubPageState extends State<ToolsHubPage> {
               ),
             ),
             const _SectionHeader(title: 'Resources & Privacy'),
+            const _SectionHeader(title: 'Guidance'),
+            _SettingsTile(
+              icon: Icons.menu_book,
+              title: 'Health Advice',
+              subtitle: 'Personalized tips based on your latest BMI',
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const HealthAdvicePage()),
+              ),
+            ),
             _SettingsTile(
               icon: Icons.library_books,
               title: 'Health Info Sources',

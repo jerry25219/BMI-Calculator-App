@@ -21,6 +21,9 @@ import 'Screens/feedback_page.dart';
 import 'Screens/home_tab_container.dart';
 import 'apx/pages/loading_page.dart';
 import 'Screens/health_info_sources.dart';
+import 'Screens/HealthAdvicePage.dart';
+import 'Screens/BmrTdeeCalculatorPage.dart';
+import 'Screens/WeightTrendPage.dart';
 import 'apx/services/navigation_service.dart';
 import 'apx/utilities/event_bus.dart';
 
@@ -90,6 +93,10 @@ class _MyAppState extends State<MyApp> {
         PrivacyPolicyWebView.id: (context) => PrivacyPolicyWebView(),
         FeedbackPage.id: (context) => FeedbackPage(),
         HealthInfoSourcesPage.id: (context) => const HealthInfoSourcesPage(),
+        HealthAdvicePage.routeName: (context) => const HealthAdvicePage(),
+        BmrTdeeCalculatorPage.routeName: (context) =>
+            const BmrTdeeCalculatorPage(),
+        WeightTrendPage.routeName: (context) => const WeightTrendPage(),
       };
 
   @override

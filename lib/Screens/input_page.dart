@@ -1,5 +1,4 @@
 import 'package:bmi_calculator_app/Screens/privacy_policy_webview.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,12 +41,16 @@ class _InputPageState extends State<InputPage> {
   String activity = 'sedentary';
   String? _reminderMessage;
   bool _showReminder = false;
+  String? _previewBmi;
+  String? _previewText;
+  Color? _previewColor;
 
   // 统一计算入口：用于右上角按钮触发导航
   void _performCalculateAndNavigate() {
     final String gender = selectedGender == Gender.male ? 'male' : 'female';
     final Calculate calc =
         Calculate(height: height, weight: weight, gender: gender);
+    _updatePreview();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -69,6 +72,7 @@ class _InputPageState extends State<InputPage> {
   void initState() {
     super.initState();
     _checkReminderDue();
+    _updatePreview();
   }
 
   Future<void> _checkReminderDue() async {
@@ -89,6 +93,17 @@ class _InputPageState extends State<InputPage> {
         _showReminder = true;
       });
     }
+  }
+
+  void _updatePreview() {
+    final gender = selectedGender == Gender.male ? 'male' : 'female';
+    final calc = Calculate(height: height, weight: weight, gender: gender);
+    final bmi = calc.result();
+    setState(() {
+      _previewBmi = bmi;
+      _previewText = calc.getText();
+      _previewColor = calc.getTextColor();
+    });
   }
 
   @override
@@ -129,42 +144,83 @@ class _InputPageState extends State<InputPage> {
                   ),
                 ),
               ),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = Gender.male;
-                      });
-                    },
-                    child: ReusableBg(
-                      colour: selectedGender == Gender.male
-                          ? kactiveCardColor
-                          : kinactiveCardColor,
-                      cardChild: IconContent(
-                          myicon: FontAwesomeIcons.mars, text: 'MALE'),
+            Card(
+              color: kactiveCardColor,
+              margin: const EdgeInsets.all(8),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('GENDER', style: klabelTextStyle),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        ChoiceChip(
+                          label: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [Icon(FontAwesomeIcons.mars, size: 14), SizedBox(width: 6), Text('Male')],
+                          ),
+                          selected: selectedGender == Gender.male,
+                          onSelected: (_) {
+                            setState(() {
+                              selectedGender = Gender.male;
+                            });
+                            _updatePreview();
+                          },
+                          selectedColor: kbottomContainerColor,
+                        ),
+                        ChoiceChip(
+                          label: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [Icon(FontAwesomeIcons.venus, size: 14), SizedBox(width: 6), Text('Female')],
+                          ),
+                          selected: selectedGender == Gender.female,
+                          onSelected: (_) {
+                            setState(() {
+                              selectedGender = Gender.female;
+                            });
+                            _updatePreview();
+                          },
+                          selectedColor: kbottomContainerColor,
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = Gender.female;
-                      });
-                    },
-                    child: ReusableBg(
-                      colour: selectedGender == Gender.female
-                          ? kactiveCardColor
-                          : kinactiveCardColor,
-                      cardChild: IconContent(
-                          myicon: FontAwesomeIcons.venus, text: 'FEMALE'),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
+            if (_previewBmi != null)
+              Card(
+                color: kactiveCardColor,
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text('Preview', style: TextStyle(color: Colors.white70, fontSize: 12)),
+                            SizedBox(height: 6),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(_previewText ?? '',
+                              style: TextStyle(color: _previewColor, fontSize: 14, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 4),
+                          Text(_previewBmi ?? '', style: kBMITextStyle),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ReusableBg(
               colour: kactiveCardColor,
               cardChild: Column(
@@ -208,6 +264,7 @@ class _InputPageState extends State<InputPage> {
                         setState(() {
                           height = newValue.round();
                         });
+                        _updatePreview();
                       },
                     ),
                   ),
@@ -272,6 +329,7 @@ class _InputPageState extends State<InputPage> {
                                 setState(() {
                                   weight--;
                                 });
+                                _updatePreview();
                               },
                             ),
                             SizedBox(
@@ -283,6 +341,7 @@ class _InputPageState extends State<InputPage> {
                                 setState(() {
                                   weight++;
                                 });
+                                _updatePreview();
                               },
                             ),
                           ],
@@ -333,20 +392,18 @@ class _InputPageState extends State<InputPage> {
                 ),
               ],
             ),
-            // 移除底部“CALCULATE”按钮，统一到右上角
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+              child: ElevatedButton.icon(
+                onPressed: _performCalculateAndNavigate,
+                icon: const Icon(Icons.calculate),
+                label: const Text('CALCULATE'),
+              ),
+            ),
           ],
         ),
       ),
 
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   child: Icon(
-      //     Icons.favorite,
-      //     color: Colors.pink,
-      //     size: 23.0,
-      //   ),
-      //   backgroundColor: kactiveCardColor,
-      // ),
     );
   }
 }

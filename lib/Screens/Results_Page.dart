@@ -8,6 +8,7 @@ import '../Components/Reusable_Bg.dart';
 import '../calculator_brain.dart';
 import 'BMIHistoryPage.dart';
 import 'feedback_page.dart';
+import 'HealthAdvicePage.dart';
 import 'health_info_sources.dart';
 
 class ResultPage extends StatefulWidget {
@@ -255,6 +256,42 @@ class _ResultPageState extends State<ResultPage> {
                                 SizedBox(width: 8.0),
                                 Text(
                                   'TREND',
+                                  style: kBodyTextStyle,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HealthAdvicePage(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 40,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF4C4F5E),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(
+                                  Icons.menu_book,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  'ADVICE',
                                   style: kBodyTextStyle,
                                 ),
                               ],

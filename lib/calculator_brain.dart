@@ -150,3 +150,107 @@ class Calculate {
     return const Color(0xFF24D876);
   }
 }
+
+class BmrTdeeRecord {
+  final String gender; // male | female
+  final int age;
+  final int height; // cm
+  final int weight; // kg
+  final String activity; // sedentary | light | active | moderate | vigorous
+  final double bmr; // kcal/day
+  final double tdee; // kcal/day
+  final DateTime time;
+
+  BmrTdeeRecord({
+    required this.gender,
+    required this.age,
+    required this.height,
+    required this.weight,
+    required this.activity,
+    required this.bmr,
+    required this.tdee,
+    required this.time,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'gender': gender,
+        'age': age,
+        'height': height,
+        'weight': weight,
+        'activity': activity,
+        'bmr': bmr,
+        'tdee': tdee,
+        'time': time.toIso8601String(),
+      };
+
+  factory BmrTdeeRecord.fromJson(Map<String, dynamic> json) => BmrTdeeRecord(
+        gender: json['gender'],
+        age: json['age'],
+        height: json['height'],
+        weight: json['weight'],
+        activity: json['activity'],
+        bmr: (json['bmr'] as num).toDouble(),
+        tdee: (json['tdee'] as num).toDouble(),
+        time: DateTime.parse(json['time']),
+      );
+}
+
+class BmrTdeeHistoryManager {
+  static const String _storageKey = 'bmr_tdee_history';
+
+  static Future<void> save(BmrTdeeRecord record) async {
+    final prefs = await SharedPreferences.getInstance();
+    final list = await getAll();
+    list.add(record);
+    final jsonList = list.map((e) => jsonEncode(e.toJson())).toList();
+    await prefs.setStringList(_storageKey, jsonList);
+  }
+
+  static Future<List<BmrTdeeRecord>> getAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = prefs.getStringList(_storageKey) ?? [];
+    return jsonList
+        .map((s) => BmrTdeeRecord.fromJson(jsonDecode(s)))
+        .toList();
+  }
+
+  static Future<void> clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_storageKey);
+  }
+}
+
+double calculateBmr({
+  required String gender,
+  required int age,
+  required int height,
+  required int weight,
+}) {
+  // Mifflin–St Jeor
+  final base = 10 * weight + 6.25 * height - 5 * age;
+  return (gender == 'male') ? base + 5 : base - 161;
+}
+
+double activityMultiplier(String activity) {
+  switch (activity) {
+    case 'sedentary':
+      return 1.2;
+    case 'light':
+      return 1.375;
+    case 'active':
+      return 1.55;
+    case 'moderate':
+      return 1.725;
+    case 'vigorous':
+      return 1.9;
+    default:
+      return 1.2;
+  }
+}
+
+double calculateTdee({
+  required double bmr,
+  required String activity,
+}) {
+  return bmr * activityMultiplier(activity);
+}
